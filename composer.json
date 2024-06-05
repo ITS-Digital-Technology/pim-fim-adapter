@@ -8,7 +8,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "NortheasternWeb\\PimFimAdapter\\": "src/"
+            "NortheasternWeb\\PIMFIMAdapter\\": "src"
         }
     },
     "authors": [
