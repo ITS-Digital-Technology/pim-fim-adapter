@@ -4,10 +4,11 @@ namespace NortheasternWeb\PIMFIMAdapter\PIM;
 
 use NortheasternWeb\PIMFIMAdapter\PIM\Config\PIMConfig;
 use NortheasternWeb\PIMFIMAdapter\ContentfulAdapter;
+use NortheasternWeb\PIMFIMAdapter\Adapter;
 use Contentful\Delivery\ClientOptions;
 use Contentful\Delivery\Query;
 
-class PIMAdapter {
+class PIMAdapter extends Adapter {
     private PIMConfig $config;
     private $program_content_type = 'program'; 
     private ContentfulAdapter $adapter;
@@ -17,14 +18,13 @@ class PIMAdapter {
     ) {
         $this->config = new PIMConfig();
 
-        extract((array) $this->config);
+        return $this->adapter = parent::__construct($this->config);
+    }
 
-        $this->adapter = new ContentfulAdapter(
-            $access_token, 
-            $space_id, 
-            $environment_id, 
-            $client_options
-        );
+    public function getEntry($id) {
+        $entry = $this->adapter->getEntry($id);
+
+        return $entry;
     }
 
     public function getAllPrograms() {
@@ -51,7 +51,8 @@ class PIMAdapter {
      */
     public function getProgramsByLocationName(string $name) {
         $query = (new Query)
-            ->where('fields.location', $name);
+            ->where('fields.location.sys.contentType.sys.id', 'location')
+            ->where('fields.location.fields.name[match]', $name);
 
         $entries = $this->adapter->getEntriesByContentType(
             $this->program_content_type,
@@ -65,11 +66,13 @@ class PIMAdapter {
      * Get Programs By Major Name
      */
     public function getProgramsByMajorName(string $major) {
-        $query = (new Query)->where('banner.fields.major.fields.name', $major);
+        $query = (new Query)
+            ->where('fields.banner.sys.contentType.sys.id', 'banner')
+            ->where('fields.banner.fields.major[match]', $major);
 
-        $entries = $this->adapter->getEntriesByContentType(
+        $entries = $this->adapter->getEntriesByContentTypeAndTags(
             $this->program_content_type,
-            $query
+            ['collegeCollegeOfEngineering']
         );
 
         return $entries;
@@ -82,9 +85,19 @@ class PIMAdapter {
         string $id = '', 
         string $name = ''
     ) {
-        $query = (new Query)
-            ->where('banner.fields.college.fields.name', $name)
-            ->where('banner.fields.college.sys.id', $id);
+        $query = (new Query);
+
+        if (!empty($id)) {
+            $query = $query
+                ->where('fields.banner.fields.college.sys.contentType.sys.id', 'college')
+                ->where('fields.banner.fields.college.sys.id', $id);
+        }
+
+        if (!empty($name)) {
+            $query = $query
+                ->where('fields.banner.fields.college.sys.contentType.sys.id', 'college')
+                ->where('fields.banner.fields.college.fields.name', $name);
+        }
 
         $entries = $this->adapter->getEntriesByContentType(
             $this->program_content_type,
@@ -102,6 +115,16 @@ class PIMAdapter {
     ) {
 
     }
+
+    /**
+     * Get Programs By Degree Type
+     */
+    public function getProgramsByUndergradDegreeType(
+        string $name = ''
+    ) {
+
+    }
+
 
     /**
      * Get Programs By Custom Query
