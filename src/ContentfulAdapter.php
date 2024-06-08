@@ -7,6 +7,7 @@ use Contentful\Core\Resource\ResourceArray;
 use Contentful\Delivery\ClientOptions;
 use Contentful\Delivery\Client;
 use Contentful\Delivery\Query;
+use Contentful\Delivery\Resource\Entry;
 
 /**
  * Contentful Client Adapter
@@ -51,6 +52,19 @@ class ContentfulAdapter {
     }
 
     /**
+     * Get Entry By Id
+     */
+    public function getEntry(string $id, ?Query $query = null): Entry {
+        try {
+            $entry = $this->client->getEntry($id);
+
+            return $entry;
+        } catch (NotFoundException $exception) {
+            return $exception;
+        }
+    }
+
+    /**
      * Get Entries
      * 
      * @param Query $query
@@ -59,9 +73,9 @@ class ContentfulAdapter {
      * @return ResourceArray $entries 
      *  - https://contentful.github.io/contentful.php/api/6.4.0/Contentful/ResourceArray.html
      */
-    public function getEntries(Query $query = null): ResourceArray {
+    public function getEntries(?Query $query = null): ResourceArray {
         try {
-            $entries = $this->client->getEntries($query);
+            $entries = $this->client->getEntries($query->setInclude(10));
 
             return $entries;
         } catch (NotFoundException $exception) {
@@ -81,14 +95,16 @@ class ContentfulAdapter {
      */
     public function getEntriesByContentType(
         string $content_type,
-        Query $query = null
-    ): ResourceArray {
+        ?Query $query = null
+    ) {
         try {
             $query = !is_null($query) 
                 ? $query 
                 : new Query();
 
-            $content_type_query = $query->setContentType($content_type);
+            $content_type_query = $query
+                ->setContentType($content_type)
+                ->setInclude(10);
 
             $entries = $this->client->getEntries($content_type_query);
 
@@ -110,14 +126,16 @@ class ContentfulAdapter {
      */
     public function getEntriesByTags(
         array $tags,
-        Query $query = null 
+        ?Query $query = null 
     ): ResourceArray {
         try {
             $query = !is_null($query) 
                 ? $query 
                 : new Query();
 
-            $tags_query = $query->where('metadata.tags.sys.id[in]', $tags);
+            $tags_query = $query
+                ->where('metadata.tags.sys.id[in]', $tags)
+                ->setInclude(10);
 
             $entries = $this->client->getEntries($tags_query);
 
@@ -141,7 +159,7 @@ class ContentfulAdapter {
     public function getEntriesByContentTypeAndTags(
         string $content_type, 
         array $tags,
-        Query $query = null 
+        ?Query $query = null 
     ): ResourceArray {
         try {
             $query = !is_null($query) 
@@ -150,7 +168,8 @@ class ContentfulAdapter {
 
             $content_type_and_tags_query = $query
                 ->setContentType($content_type)
-                ->where('metadata.tags.sys.id[in]', $tags);
+                ->where('metadata.tags.sys.id[in]', $tags)
+                ->setInclude(10);
 
             $entries = $this->client->getEntries($content_type_and_tags_query);
 
