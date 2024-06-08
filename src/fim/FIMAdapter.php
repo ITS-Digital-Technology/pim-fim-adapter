@@ -5,18 +5,17 @@ namespace NortheasternWeb\PIMFIMAdapter\FIM;
 use NortheasternWeb\PIMFIMAdapter\FIM\Config\FIMConfig;
 use NortheasternWeb\PIMFIMAdapter\ContentfulAdapter;
 use Contentful\Delivery\ClientOptions;
+use NortheasternWeb\PIMFIMAdapter\Adapter;
 
-class FIMAdapter {
-    private array $config;
+class FIMAdapter extends Adapter {
+    private FIMConfig $config;
+    private ContentfulAdapter $adapter;
 
     function __construct(
-        ClientOptions $client_options,
-        FIMConfig $config
+        ClientOptions $client_options = null
     ) {
-        (array) $this->config = $config;
+        $this->config = new FIMConfig();
 
-        extract($this->config);
-
-        $adapter = new ContentfulAdapter($access_token, $space_id, $environment_id, $client_options);
+        return $this->adapter = parent::__construct($this->config);
     }
 }
