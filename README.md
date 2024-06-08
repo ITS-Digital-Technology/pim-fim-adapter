@@ -15,3 +15,17 @@ PIM/FIM 2.0 Adapter Composer Package - for PHP and WordPress based websites
 1. `cd` into project's root directory.
 2. Run `composer install` on the command-line/terminal.
 3. Add a .env (copy `.env.example` in `.env` file) to project's root directory with constants.
+
+## Usage
+
+### Contentful Adapter
+The `ContentfulAdapter.php` class file is intended to expose methods that interact with the Contentful API via the Contentful PHP SDK. Each method to get Entries requires a [Query](https://contentful.github.io/contentful.php/api/6.4.0/Contentful/Query.html) object to be passed-in as a parameter. By Default, each Query will automatically resolve reference entries 1 level deep. Additional levels of Link resolution will need to occur via separate get Entry calls
+
+Below is a list of methods available in the Contentful Adapter:
+
+| Name | Description |
+| ---- | ---- |
+| `getEntries` | Get entries by custom [Query](https://contentful.github.io/contentful.php/api/6.4.0/Contentful/Query.html) |
+| `getEntriesByContentType` | Get entries by Content Type and custom Query
+
+### PIM
