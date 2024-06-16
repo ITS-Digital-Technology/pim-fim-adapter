@@ -1,6 +1,7 @@
 <?php
 
 use Contentful\Core\Resource\ResourceInterface;
+use Contentful\Delivery\Query;
 use Contentful\Delivery\Resource\Entry;
 use Dotenv\Dotenv;
 use NortheasternWeb\PIMFIMAdapter\ContentfulAdapter;
@@ -16,19 +17,14 @@ $dotenv->load();
 $PIMAdapter = new PIMAdapter();
 
 $programs = $PIMAdapter->getAllPrograms();
-$programsByLocationToronto = $PIMAdapter->getProgramsByLocationName('toronto');
-$programsByLocationBoston = $PIMAdapter->getProgramsByLocationName('boston');
+var_dump(json_encode($programs, JSON_PRETTY_PRINT));
+// $programsByLocationToronto = $PIMAdapter->getProgramsByLocationName('toronto');
+// $programsByLocationBoston = $PIMAdapter->getProgramsByLocationName('boston');
 
-$programsByMajor = $PIMAdapter->getProgramsByMajorName('Speech-Language Pathology');
+// $programsByMajor = $PIMAdapter->getProgramsByMajorName('Speech-Language Pathology');
 
-$entries = [];
+$collegeQuery = (new Query())->select(['fields.name', 'sys.id', 'sys.updatedAt']);
+$colleges = $PIMAdapter->getCollegeList($collegeQuery);
 
-foreach ($programsByMajor as $entry) {
-    $entries[] = $entry->all();
-}
-
-// var_dump(json_encode($programsByLocationToronto, JSON_PRETTY_PRINT));
-
-// var_dump(json_encode($programsByLocationToronto, JSON_PRETTY_PRINT));
-
-var_dump(json_encode($entries, JSON_PRETTY_PRINT));
+$bouveCollege = $PIMAdapter->getProgramsByCollege("College of Engineering");
+// var_dump(json_encode($bouveCollege, JSON_PRETTY_PRINT));
