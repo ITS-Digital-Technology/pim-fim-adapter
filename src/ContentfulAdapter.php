@@ -34,7 +34,7 @@ class ContentfulAdapter {
         string $access_token,
         string $space_id,
         string $environment_id,
-        ClientOptions $client_options = null
+        ?ClientOptions $client_options = null
     ) {
 
         // Contentful Client Options
@@ -54,14 +54,10 @@ class ContentfulAdapter {
     /**
      * Get Entry By Id
      */
-    public function getEntry(string $id, ?Query $query = null): Entry {
-        try {
-            $entry = $this->client->getEntry($id);
+    public function getEntry(string $id, ?Query $query = null) {
+        $entry = $this->client->getEntry($id);
 
-            return $entry;
-        } catch (NotFoundException $exception) {
-            return $exception;
-        }
+        return $entry->jsonSerialize();
     }
 
     /**
@@ -70,17 +66,13 @@ class ContentfulAdapter {
      * @param Query $query
      *  - https://contentful.github.io/contentful.php/api/6.4.0/Contentful/Query.html
      * 
-     * @return ResourceArray $entries 
-     *  - https://contentful.github.io/contentful.php/api/6.4.0/Contentful/ResourceArray.html
+     * @return array $entries 
+     *  - https://contentful.github.io/contentful.php/api/6.4.0/Contentful/ResourceArray.html#method_jsonSerialize
      */
-    public function getEntries(?Query $query = null): ResourceArray {
-        try {
-            $entries = $this->client->getEntries($query->setInclude(10));
+    public function getEntries(?Query $query = null) {
+        $entries = $this->client->getEntries($query->setInclude(10));
 
-            return $entries;
-        } catch (NotFoundException $exception) {
-            return $exception;
-        }
+        return $entries->jsonSerialize();
     }
 
     /**
@@ -90,28 +82,23 @@ class ContentfulAdapter {
      * @param Query $query
      *  - https://contentful.github.io/contentful.php/api/6.4.0/Contentful/Query.html
      * 
-     * @return ResourceArray $entries
-     *  - https://contentful.github.io/contentful.php/api/6.4.0/Contentful/ResourceArray.html
+     * @return ResourceArray
      */
     public function getEntriesByContentType(
         string $content_type,
         ?Query $query = null
     ) {
-        try {
-            $query = !is_null($query) 
-                ? $query 
-                : new Query();
+        $query = !is_null($query) 
+            ? $query 
+            : new Query();
 
-            $content_type_query = $query
-                ->setContentType($content_type)
-                ->setInclude(10);
+        $content_type_query = $query
+            ->setContentType($content_type)
+            ->setInclude(10);
 
-            $entries = $this->client->getEntries($content_type_query);
+        $entries = $this->client->getEntries($content_type_query);
 
-            return $entries;
-        } catch (NotFoundException $exception) {
-            return $exception;
-        }
+        return $entries->jsonSerialize();
     }
 
     /**
@@ -127,22 +114,18 @@ class ContentfulAdapter {
     public function getEntriesByTags(
         array $tags,
         ?Query $query = null 
-    ): ResourceArray {
-        try {
-            $query = !is_null($query) 
-                ? $query 
-                : new Query();
+    ) {
+        $query = !is_null($query) 
+            ? $query 
+            : new Query();
 
-            $tags_query = $query
-                ->where('metadata.tags.sys.id[in]', $tags)
-                ->setInclude(10);
+        $tags_query = $query
+            ->where('metadata.tags.sys.id[in]', $tags)
+            ->setInclude(10);
 
-            $entries = $this->client->getEntries($tags_query);
+        $entries = $this->client->getEntries($tags_query);
 
-            return $entries;
-        } catch (NotFoundException $exception) {
-            return $exception;
-        }
+        return $entries->jsonSerialize();
     }
 
     /**
@@ -160,22 +143,18 @@ class ContentfulAdapter {
         string $content_type, 
         array $tags,
         ?Query $query = null 
-    ): ResourceArray {
-        try {
-            $query = !is_null($query) 
-                ? $query 
-                : new Query();
+    ) {
+        $query = !is_null($query) 
+            ? $query 
+            : new Query();
 
-            $content_type_and_tags_query = $query
-                ->setContentType($content_type)
-                ->where('metadata.tags.sys.id[in]', $tags)
-                ->setInclude(10);
+        $content_type_and_tags_query = $query
+            ->setContentType($content_type)
+            ->where('metadata.tags.sys.id[in]', $tags)
+            ->setInclude(10);
 
-            $entries = $this->client->getEntries($content_type_and_tags_query);
+        $entries = $this->client->getEntries($content_type_and_tags_query);
 
-            return $entries;
-        } catch (NotFoundException $exception) {
-            return $exception;
-        }
+        return $entries->jsonSerialize();
     }
 }
