@@ -59,9 +59,9 @@ class PIMAdapter extends Adapter {
     }
 
     public function getBannerEntryAndLinkedPrograms($entry_id) {
-        $should_loop = true;
         $entry_skip = 0;
         $entry_limit = 1;
+        $linked_array = [];
 
         $entry_query = (new Query)
             ->select(['sys.id'])
@@ -75,12 +75,13 @@ class PIMAdapter extends Adapter {
             );
 
             $banner_entries_items = $banner_entries['items'];
-            $linked_array = [];
 
             foreach ($banner_entries_items as $linked_entry) {
                 array_push($linked_array, $linked_entry->getId());
             }
+
             // var_dump($banner_entries_items);
+
             if(count($banner_entries_items) > 0) {
                 $entry_skip += $entry_limit;
             } else {
@@ -147,8 +148,11 @@ class PIMAdapter extends Adapter {
                     $this->program_content_type,
                     $query->linksToEntry($linked_entry_id)
                 );
-    
-                array_push($program_entries['items'], $entries['items']);
+
+                foreach($entries['items'] as $entry) {
+                    array_push($program_entries['items'], $entry);
+                }
+                
             }
         }
 
