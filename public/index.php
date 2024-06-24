@@ -16,8 +16,8 @@ $dotenv->load();
 
 $PIMAdapter = new PIMAdapter();
 
-$programs = $PIMAdapter->getAllPrograms();
-var_dump(json_encode($programs, JSON_PRETTY_PRINT));
+// $programs = $PIMAdapter->getAllPrograms();
+// var_dump(json_encode($programs, JSON_PRETTY_PRINT));
 // $programsByLocationToronto = $PIMAdapter->getProgramsByLocationName('toronto');
 // $programsByLocationBoston = $PIMAdapter->getProgramsByLocationName('boston');
 
@@ -27,4 +27,4 @@ $collegeQuery = (new Query())->select(['fields.name', 'sys.id', 'sys.updatedAt']
 $colleges = $PIMAdapter->getCollegeList($collegeQuery);
 
 $bouveCollege = $PIMAdapter->getProgramsByCollege("College of Engineering");
-// var_dump(json_encode($bouveCollege, JSON_PRETTY_PRINT));
+var_dump(json_encode($bouveCollege, JSON_PRETTY_PRINT));
