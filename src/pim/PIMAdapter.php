@@ -26,12 +26,11 @@ class PIMAdapter extends Adapter {
         return $this->adapter = parent::__construct($this->config, $client_options);
     }
 
-    public function getEntry($id) {
-        $entry = $this->adapter->getEntry($id);
-
-        return $entry;
-    }
-
+    /**
+     * Get All Programs
+     * 
+     * List all Programs, no query parameters.
+     */
     public function getAllPrograms() {
         $entries = $this->adapter->getEntriesByContentType($this->program_content_type);
 
@@ -58,12 +57,21 @@ class PIMAdapter extends Adapter {
         return $entries;
     }
 
-    public function getBannerEntriesByEntryId($entry_id) {
+    /**
+     * Get Banner Entries By Entry Id
+     * 
+     * Fetches entries (Programs) linked to Banner entries by matching Banner entry Id
+     * 
+     * @param string $entry_id
+     * 
+     * @return $linked_array
+     */
+    public function getLinkedBannerEntriesByEntryId($entry_id) {
         $entry_skip = 0;
         $entry_limit = 1;
         $linked_array = [];
 
-        $entry_query = (new Query)
+        $query = (new Query)
             ->select(['sys.id'])
             ->linksToEntry($entry_id)->select(['sys.id', 'fields.bannerId']);
 
@@ -71,7 +79,7 @@ class PIMAdapter extends Adapter {
 
             $banner_entries = $this->adapter->getEntriesByContentType(
                 $this->banner_content_type, 
-                $entry_query
+                $query
             );
 
             $banner_entries_items = $banner_entries['items'];
@@ -123,7 +131,7 @@ class PIMAdapter extends Adapter {
         // map $banner_entry_ids to array of Banner Entry IDs
         // push array of Banner Entry IDs to $college_list
         foreach($college['items'] as $entry) {
-            $banner_entry_ids = $this->getBannerEntriesByEntryId($entry->getId());
+            $banner_entry_ids = $this->getLinkedBannerEntriesByEntryId($entry->getId());
 
             array_push($college_list, $banner_entry_ids);
         }
@@ -132,7 +140,7 @@ class PIMAdapter extends Adapter {
         foreach ($college_list as $college_entry) {
             // Iterate over banner entry IDs found in each $college_entry 
             foreach($college_entry as $linked_entry_id) {
-                // Get Banner Entries
+                // Get Program Entries by entry
                 $program_entries = $this->adapter->getEntriesByContentType(
                     $this->program_content_type,
                     (new Query)->linksToEntry($linked_entry_id)->select(['sys.id'])
@@ -153,6 +161,15 @@ class PIMAdapter extends Adapter {
         return $program_entries;
     }
 
+    /**
+     * Get Program By Id
+     * 
+     * Fetch Program entry by sys.id
+     * 
+     * @param string $id
+     * 
+     * @return ResourceArray $entries
+     */
     public function getProgramById(string $id = '') {
         $query = (new Query)
             ->where('sys.id', $id);
@@ -165,6 +182,15 @@ class PIMAdapter extends Adapter {
         return $entries;
     }
 
+    /**
+     * Get Program By Name
+     * 
+     * Fetch Program entry by fields.name
+     * 
+     * @param string $name
+     * 
+     * @return ResourceArray $entries
+     */
     public function getProgramByName(string $name = '') {
         $query = (new Query)
             ->where('fields.name', $name);
@@ -179,6 +205,10 @@ class PIMAdapter extends Adapter {
 
     /**
      * Get Programs by Location Name
+     * 
+     * @param string $name
+     * 
+     * @return ResourceArray $entries
      */
     public function getProgramsByLocationName(string $name) {
         $query = (new Query)
@@ -195,6 +225,10 @@ class PIMAdapter extends Adapter {
 
     /**
      * Get Programs By Major Name
+     * 
+     * @param string $major
+     * 
+     * @return ResourceArray $entries
      */
     public function getProgramsByMajorName(string $major) {
         $query = (new Query)
@@ -211,27 +245,57 @@ class PIMAdapter extends Adapter {
 
     /**
      * Get Programs By Degree Type
+     * 
+     * @param string $degreeType
+     * 
+     * @return ResourceArray $entries
      */
     public function getProgramsByDegreeType(
-        string $degreeType = ''
+        string $degreeType
     ) {
+        $query = (new Query)
+            ->where('fields.banner.sys.contentType.sys.id', 'banner')
+            ->where('fields.banner.fields.degreeType', $degreeType);
+        
+        $entries = $this->adapter->getEntriesByContentType(
+            $this->program_content_type,
+            $query
+        );
 
+        return $entries;
     }
 
     /**
      * Get Programs By Undergrad Degree Type
+     * 
+     * @param string $undergradDegreeType
+     * 
+     * @return ResourceArray $entries
      */
     public function getProgramsByUndergradDegreeType(
-        string $undergradDegreeType = ''
+        string $undergradDegreeType
     ) {
+        $query = (new Query)
+            ->where('fields.banner.sys.contentType.sys.id', 'banner')
+            ->where('fields.banner.fields.undergradDegreeType', $undergradDegreeType);
+        
+        $entries = $this->adapter->getEntriesByContentType(
+            $this->program_content_type,
+            $query
+        );
 
+        return $entries;
     }
 
 
     /**
      * Get Programs By Custom Query
+     * 
+     * @param ?Query $query null
+     * 
+     * @return ResourceArray $entries
      */
-    public function getProgramsByCustom($query) {
+    public function getProgramsByCustom(?Query $query = null) {
         $entries = $this->adapter->getEntriesByContentType(
             $this->program_content_type,
             $query
