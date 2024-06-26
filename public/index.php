@@ -26,5 +26,5 @@ $PIMAdapter = new PIMAdapter();
 $collegeQuery = (new Query())->select(['fields.name', 'sys.id', 'sys.updatedAt']);
 $colleges = $PIMAdapter->getCollegeList($collegeQuery);
 
-$bouveCollege = $PIMAdapter->getProgramsByCollege("College of Engineering");
+$bouveCollege = $PIMAdapter->getProgramsByCollege("Bouvé College of Health Sciences");
 var_dump(json_encode($bouveCollege, JSON_PRETTY_PRINT));
