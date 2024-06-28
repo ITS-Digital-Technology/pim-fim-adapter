@@ -53,11 +53,13 @@ class ContentfulAdapter {
 
     /**
      * Get Entry By Id
+     * 
+     * @param string $id
      */
     public function getEntry(string $id) {
         $entry = $this->client->getEntry($id);
 
-        return $entry->jsonSerialize();
+        return $entry;
     }
 
     /**
