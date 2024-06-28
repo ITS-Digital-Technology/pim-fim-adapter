@@ -20,7 +20,12 @@ class Accreditation {
         $this->abbreviation = $item->abbreviation;
         $this->url = $item->url;
         $this->description = $this->renderRichTextNodes($item->description);
-        $this->logo = $item->logo;
+        $this->logo = !is_null($item->logo) ? [
+            'id' => $item->logo->getId(),
+            'title' => $item->logo->getTitle(),
+            'description' => $item->logo->getDescription(),
+            'file' => $item->logo->getFile(),
+        ] : null;
     }
 
     public function toArray() {
