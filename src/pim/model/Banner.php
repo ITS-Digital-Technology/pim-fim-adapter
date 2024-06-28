@@ -2,6 +2,7 @@
 
 namespace NortheasternWeb\PIMFIMAdapter\PIM\Model;
 
+use Contentful\Delivery\Resource\Entry as ResourceEntry;
 use NortheasternWeb\PIMFIMAdapter\Model\Entry;
 
 class Banner extends Entry {
@@ -13,7 +14,8 @@ class Banner extends Entry {
     protected $college;
     protected $additionalColleges;
 
-    public function __construct($item) {
+    public function __construct(ResourceEntry $item)
+    {
         parent::__construct($item->getSystemProperties());
 
         $this->bannerId = $item->bannerId;
@@ -27,7 +29,8 @@ class Banner extends Entry {
         });
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return [
             'id' => $this->id,
             'bannerId' => $this->bannerId,

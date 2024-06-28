@@ -2,13 +2,13 @@
 
 namespace NortheasternWeb\PIMFIMAdapter\PIM\Model;
 
-use Contentful\Delivery\Resource\Entry;
+use NortheasternWeb\PIMFIMAdapter\Model\Entry;
+use Contentful\Delivery\Resource\Entry as ResourceEntry;
 use NortheasternWeb\PIMFIMAdapter\Concerns\RendersRichText;
 
-class Program {
+class Program extends Entry {
     use RendersRichText;
 
-    protected $id;
     protected string $name;
     protected $legacyId;
     
@@ -49,9 +49,10 @@ class Program {
 
     protected $accreditationDescriptionOverride;
 
-    public function __construct(Entry $item)
+    public function __construct(ResourceEntry $item)
     {
-        $this->id = $item->getId();
+        parent::__construct($item->getSystemProperties());
+
         $this->name = $item->name;
         $this->legacyId = $item->legacyId;
 
@@ -92,7 +93,8 @@ class Program {
         $this->accreditationDescriptionOverride = $this->renderRichTextNodes($item->accreditationDescriptionOverride);
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return[
             'id' => $this->id,
             'name' => $this->name,
@@ -119,7 +121,9 @@ class Program {
             'averageAid' => $this->averageAid,
             'percentReceivingAid' => $this->percentReceivingAid,
             'accreditation' => $this->accreditation,
-            'accreditationDescriptionOverride' => $this->accreditationDescriptionOverride
+            'accreditationDescriptionOverride' => $this->accreditationDescriptionOverride,
+        
+            ...parent::toArray()
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace NortheasternWeb\PIMFIMAdapter\PIM\Model;
 
+use Contentful\Delivery\Resource\Entry as ResourceEntry;
 use NortheasternWeb\PIMFIMAdapter\Model\Entry;
 
 class Location extends Entry {
@@ -12,7 +13,8 @@ class Location extends Entry {
     protected $visaLabel;
     protected $tuitionCurrency;
 
-    public function __construct($item) {
+    public function __construct(ResourceEntry $item)
+    {
         parent::__construct($item->getSystemProperties());
 
         $this->name = $item->name;
@@ -22,7 +24,8 @@ class Location extends Entry {
         $this->tuitionCurrency = $item->tuitionCurrency;
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return [
             'id' => $this->id,
             'name' => $this->name,

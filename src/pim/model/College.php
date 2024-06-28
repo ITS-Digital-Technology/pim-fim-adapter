@@ -3,6 +3,7 @@
 namespace NortheasternWeb\PIMFIMAdapter\PIM\Model;
 
 use NortheasternWeb\PIMFIMAdapter\Concerns\RendersRichText;
+use Contentful\Delivery\Resource\Entry as ResourceEntry;
 use NortheasternWeb\PIMFIMAdapter\Model\Entry;
 
 class College extends Entry {
@@ -16,7 +17,8 @@ class College extends Entry {
     protected $tuitionCostPerCredit;
     protected $deadline;
 
-    public function __construct($item) {
+    public function __construct(ResourceEntry $item)
+    {
         parent::__construct($item->getSystemProperties());
         
         $this->legacyId = $item->legacyId;
@@ -27,7 +29,8 @@ class College extends Entry {
         $this->deadline = $item->deadline;
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return [
             'id' => $this->id,
             'legacyId' => $this->legacyId,

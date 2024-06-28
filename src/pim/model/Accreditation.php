@@ -2,8 +2,9 @@
 
 namespace NortheasternWeb\PIMFIMAdapter\PIM\Model;
 
-use NortheasternWeb\PIMFIMAdapter\Model\Entry;
 use NortheasternWeb\PIMFIMAdapter\Concerns\RendersRichText;
+use Contentful\Delivery\Resource\Entry as ResourceEntry;
+use NortheasternWeb\PIMFIMAdapter\Model\Entry;
 
 class Accreditation extends Entry {
     use RendersRichText;
@@ -14,7 +15,7 @@ class Accreditation extends Entry {
     protected $description;
     protected $logo;
 
-    public function __construct($item) {
+    public function __construct(ResourceEntry $item) {
         parent::__construct($item->getSystemProperties());
 
         $this->name = $item->name;
@@ -32,7 +33,8 @@ class Accreditation extends Entry {
         ] : null;
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return [
             'id' => $this->id,
             'name' => $this->name,
