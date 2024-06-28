@@ -2,9 +2,10 @@
 
 namespace NortheasternWeb\PIMFIMAdapter\PIM\Model;
 
-class Location {
+use NortheasternWeb\PIMFIMAdapter\Model\Entry;
 
-    protected $id;
+class Location extends Entry {
+
     protected $name;
     protected $stateProvince;
     protected $country;
@@ -12,7 +13,8 @@ class Location {
     protected $tuitionCurrency;
 
     public function __construct($item) {
-        $this->id = $item->getId();
+        parent::__construct($item->getSystemProperties());
+
         $this->name = $item->name;
         $this->stateProvince = $item->stateProvince;
         $this->country = $item->country;
@@ -28,6 +30,8 @@ class Location {
             'country' => $this->country,
             'visaLabel' => $this->visaLabel,
             'tuitionCurrency' => $this->tuitionCurrency,
+
+            ...parent::toArray()
         ];
     }
 }

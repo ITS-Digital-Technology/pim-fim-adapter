@@ -3,8 +3,9 @@
 namespace NortheasternWeb\PIMFIMAdapter\PIM\Model;
 
 use NortheasternWeb\PIMFIMAdapter\Concerns\RendersRichText;
+use NortheasternWeb\PIMFIMAdapter\Model\Entry;
 
-class College {
+class College extends Entry {
     use RendersRichText;
 
     protected $id;
@@ -16,7 +17,8 @@ class College {
     protected $deadline;
 
     public function __construct($item) {
-        $this->id = $item->getId();
+        parent::__construct($item->getSystemProperties());
+        
         $this->legacyId = $item->legacyId;
         $this->name = $item->name;
         $this->requirements = $this->renderRichTextNodes($item->requirements);
@@ -34,6 +36,8 @@ class College {
             'applyNowLink' => $this->applyNowLink,
             'tuitionCostPerCredit' => $this->tuitionCostPerCredit,
             'deadline' => $this->deadline,
+
+            ...parent::toArray()
         ];
     }
 }

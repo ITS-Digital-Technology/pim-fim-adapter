@@ -32,7 +32,9 @@ class PIMAdapter extends Adapter {
      * List all Programs, no query parameters.
      */
     public function getAllPrograms() {
-        $entries = $this->adapter->getEntriesByContentType($this->program_content_type);
+        $entries = $this->adapter->getEntriesByContentType(
+            $this->program_content_type
+        );
 
         return $entries;
     }
@@ -73,8 +75,8 @@ class PIMAdapter extends Adapter {
 
         $query = (new Query)
             ->select(['sys.id'])
-            ->linksToEntry($entry_id);
-
+            ->linksToEntry($entry_id)
+            ->orderBy('sys.createdAt');
         do {
 
             $banner_entries = $this->adapter->getEntriesByContentType(
@@ -82,13 +84,11 @@ class PIMAdapter extends Adapter {
                 $query
             );
 
-            $banner_entries_items = $banner_entries;
-
-            foreach ($banner_entries_items as $linked_entry) {
+            foreach ($banner_entries as $linked_entry) {
                 array_push($linked_array, $linked_entry->getId());
             }
 
-            if(count($banner_entries_items) > 0) {
+            if(count($banner_entries) > 0) {
                 $entry_skip += $entry_limit;
             } else {
                 break;
@@ -123,39 +123,36 @@ class PIMAdapter extends Adapter {
         $college = $this->getCollegeList(
             (new Query)->where('fields.name[match]', $college_name)
         );
-        
-        $college_list = [];
-        $program_ids = [];
 
-        // For each college as $entry in the response, 
-        // map $banner_entry_ids to array of Banner Entry IDs
-        // push array of Banner Entry IDs to $college_list
-        foreach($college as $entry) {
-            $banner_entry_ids = $this->getLinkedBannerEntriesByEntryId($entry->getId());
+        // Get List of Banner Entries used by College
+        $banner_list = collect($college)->map(function($entry, $key) {
+            return $this->getLinkedBannerEntriesByEntryId($entry->getId());
+        });
 
-            array_push($college_list, $banner_entry_ids);
-        }
-
-        // Iterate over $college_list arrays of $college_entry array.
-        foreach ($college_list as $college_entry) {
+        // Iterate over $banner_list arrays of $college_entry array.
+        // Outputs flat Array with Entry Ids for the program Entries.
+        $program_ids = collect($banner_list)->map(function($college_entry) { 
             // Iterate over banner entry IDs found in each $college_entry 
-            foreach($college_entry as $linked_entry_id) {
+            return collect($college_entry)->map(function($linked_entry_id) {
                 // Get Program Entries by entry
-                $program_entries = $this->adapter->getEntriesByContentType(
+                $linked_entries = $this->adapter->getEntriesByContentType(
                     $this->program_content_type,
-                    (new Query)->linksToEntry($linked_entry_id)->select(['sys.id'])
+                    (new Query)
+                        ->linksToEntry($linked_entry_id)
+                        ->select(['sys.id'])
                 );
 
-                foreach($program_entries as $entry) {
-                    array_push($program_ids, $entry->getId());
-                }
-                
-            }
-        }
+                return collect($linked_entries)->map(function($entry) {
+                    return $entry->getId();
+                });
 
+            })->collapse();
+        })->collapse();
+
+        // Get Program entries by Array of Ids.
         $program_entries = $this->adapter->getEntriesByContentType(
             $this->program_content_type,
-            $query->where('sys.id[in]', $program_ids)
+            $query->where('sys.id[in]', $program_ids->all())
         );
         
         return $program_entries;

@@ -2,8 +2,9 @@
 
 namespace NortheasternWeb\PIMFIMAdapter\PIM\Model;
 
-class Banner {
-    protected $id;
+use NortheasternWeb\PIMFIMAdapter\Model\Entry;
+
+class Banner extends Entry {
     protected $bannerId;
     protected $friendlyName;
     protected $major;
@@ -13,14 +14,15 @@ class Banner {
     protected $additionalColleges;
 
     public function __construct($item) {
-        $this->id = $item->getId();
+        parent::__construct($item->getSystemProperties());
+
         $this->bannerId = $item->bannerId;
         $this->friendlyName = $item->friendlyName;
         $this->major = $item->major;
         $this->degreeType = $item->degreeType;
         $this->undergradDegreeType = $item->undergradDegreeType;
         $this->college = (new College($item->college))->toArray();
-        $this->additionalColleges = collect($item->additionalColleges)->each(function ($college, $key) {
+        $this->additionalColleges = collect($item->additionalColleges)->map(function ($college) {
             return (new College($college))->toArray();
         });
     }
@@ -35,6 +37,8 @@ class Banner {
             'undergradDegreeType' => $this->undergradDegreeType,
             'college' => $this->college,
             'additionalColleges' => $this->additionalColleges,
+
+            ...parent::toArray()
         ];
     }
 }

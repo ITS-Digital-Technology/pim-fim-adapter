@@ -86,7 +86,7 @@ class Program {
         $this->averageAid = $item->averageAid;
         $this->percentReceivingAid = $item->percentReceivingAid;
 
-        $this->accreditation = collect($item->accreditation)->map(function($entry, $key) { 
+        $this->accreditation = collect($item->accreditation)->map(function($entry) { 
             return (new Accreditation($entry))->toArray();
         });
         $this->accreditationDescriptionOverride = $this->renderRichTextNodes($item->accreditationDescriptionOverride);

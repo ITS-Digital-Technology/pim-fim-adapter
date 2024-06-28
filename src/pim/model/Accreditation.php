@@ -2,12 +2,12 @@
 
 namespace NortheasternWeb\PIMFIMAdapter\PIM\Model;
 
+use NortheasternWeb\PIMFIMAdapter\Model\Entry;
 use NortheasternWeb\PIMFIMAdapter\Concerns\RendersRichText;
 
-class Accreditation {
+class Accreditation extends Entry {
     use RendersRichText;
 
-    protected $id;
     protected $name;
     protected $abbreviation;
     protected $url;
@@ -15,7 +15,8 @@ class Accreditation {
     protected $logo;
 
     public function __construct($item) {
-        $this->id = $item->getId();
+        parent::__construct($item->getSystemProperties());
+
         $this->name = $item->name;
         $this->abbreviation = $item->abbreviation;
         $this->url = $item->url;
@@ -25,6 +26,9 @@ class Accreditation {
             'title' => $item->logo->getTitle(),
             'description' => $item->logo->getDescription(),
             'file' => $item->logo->getFile(),
+            'createdAt' => $item->logo->getSystemProperties()->getCreatedAt(),
+            'updatedAt' => $item->logo->getSystemProperties()->getUpdatedAt(),
+            'revision' => $item->logo->getSystemProperties()->getRevision(),
         ] : null;
     }
 
@@ -36,6 +40,8 @@ class Accreditation {
             'url' => $this->url,
             'description' => $this->description,
             'logo' => $this->logo,
+            
+            ...parent::toArray()
         ];
     }
 }
