@@ -18,19 +18,17 @@ $dotenv->load();
 $PIMAdapter = new PIMAdapter();
 
 // $programs = $PIMAdapter->getAllPrograms();
-// var_dump(json_encode($programs, JSON_PRETTY_PRINT));
 // $programsByLocationToronto = $PIMAdapter->getProgramsByLocationName('toronto');
-// $programsByLocationBoston = $PIMAdapter->getProgramsByLocationName('boston');
+$programsByLocationBoston = $PIMAdapter->getProgramsByLocationName('boston');
 
 // $programsByMajor = $PIMAdapter->getProgramsByMajorName('Speech-Language Pathology');
 
 $collegeQuery = (new Query())->select(['fields.name', 'sys.id', 'sys.updatedAt']);
 $colleges = $PIMAdapter->getCollegeList($collegeQuery);
 
-$bouveCollege = $PIMAdapter->getProgramsByCollege("Bouvé College of Health Sciences");
-// var_dump(json_encode($bouveCollege, JSON_PRETTY_PRINT));
+$bouveCollege = $PIMAdapter->getProgramsByCollege("Bouvé College of Health Sciences", (new Query)->orderBy('fields.name'));
 
-$programCollection = collect($bouveCollege)->map(function($item) {
+$programCollection = collect($programsByLocationBoston)->map(function($item) {
     return (new Program($item))->toArray();
 });
 
