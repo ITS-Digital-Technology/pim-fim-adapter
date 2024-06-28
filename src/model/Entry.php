@@ -8,14 +8,16 @@ class Entry {
     protected $updatedAt;
     protected $revision;
 
-    public function __construct($item) {
+    public function __construct($item)
+    {
         $this->id = $item->getId();
         $this->createdAt = $item->getCreatedAt();
         $this->updatedAt = $item->getUpdatedAt();
         $this->revision = $item->getRevision();
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return [
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt,
