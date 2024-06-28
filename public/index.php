@@ -7,6 +7,7 @@ use Dotenv\Dotenv;
 use NortheasternWeb\PIMFIMAdapter\ContentfulAdapter;
 use NortheasternWeb\PIMFIMAdapter\FIM\FIMAdapter;
 use NortheasternWeb\PIMFIMAdapter\PIM\PIMAdapter;
+use NortheasternWeb\PIMFIMAdapter\PIM\Model\Program;
 
 require_once realpath('./vendor/autoload.php');
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
@@ -27,4 +28,10 @@ $collegeQuery = (new Query())->select(['fields.name', 'sys.id', 'sys.updatedAt']
 $colleges = $PIMAdapter->getCollegeList($collegeQuery);
 
 $bouveCollege = $PIMAdapter->getProgramsByCollege("Bouvé College of Health Sciences");
-var_dump(json_encode($bouveCollege, JSON_PRETTY_PRINT));
+// var_dump(json_encode($bouveCollege, JSON_PRETTY_PRINT));
+
+$programCollection = collect($bouveCollege)->map(function($item) {
+    return (new Program($item))->toArray();
+});
+
+var_dump(json_encode($programCollection, JSON_PRETTY_PRINT));
