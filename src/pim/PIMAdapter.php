@@ -73,7 +73,7 @@ class PIMAdapter extends Adapter {
 
         $query = (new Query)
             ->select(['sys.id'])
-            ->linksToEntry($entry_id)->select(['sys.id', 'fields.bannerId']);
+            ->linksToEntry($entry_id);
 
         do {
 
@@ -82,7 +82,7 @@ class PIMAdapter extends Adapter {
                 $query
             );
 
-            $banner_entries_items = $banner_entries['items'];
+            $banner_entries_items = $banner_entries;
 
             foreach ($banner_entries_items as $linked_entry) {
                 array_push($linked_array, $linked_entry->getId());
@@ -130,7 +130,7 @@ class PIMAdapter extends Adapter {
         // For each college as $entry in the response, 
         // map $banner_entry_ids to array of Banner Entry IDs
         // push array of Banner Entry IDs to $college_list
-        foreach($college['items'] as $entry) {
+        foreach($college as $entry) {
             $banner_entry_ids = $this->getLinkedBannerEntriesByEntryId($entry->getId());
 
             array_push($college_list, $banner_entry_ids);
@@ -146,7 +146,7 @@ class PIMAdapter extends Adapter {
                     (new Query)->linksToEntry($linked_entry_id)->select(['sys.id'])
                 );
 
-                foreach($program_entries['items'] as $entry) {
+                foreach($program_entries as $entry) {
                     array_push($program_ids, $entry->getId());
                 }
                 
