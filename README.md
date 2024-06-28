@@ -46,20 +46,8 @@ Below are a list of methods available in the `PIMAdapter` class
 | `getProgramsByMajorName` | Fetch Programs by linked Banner entry's `fields.major` |
 
 ### Responses
-Responses are in PHP Array or Contentful [ResourceArray](https://contentful.github.io/contentful.php/api/6.4.0/Contentful/ResourceArray.html) format and structured as the following:
+Responses are in PHP Array or Contentful [ResourceArray](https://contentful.github.io/contentful.php/api/6.4.0/Contentful/ResourceArray.html). Use the methods attached to `ResourceArray` to map data to fields.
 
-- For `getEntries*` type responses (Contentful `ResourceArray`), it may be helpful to convert to JSON (`json_encode`) then use Contentful `$client->parseJson()` to return it to PHP Array format.
-    ```json
-    {
-        "sys": {
-            "type": "Array"
-        },
-        "total": 0, // Total count of items matching the query
-        "limit": 100, // Limit of items in the query
-        "skip": 0, // Number of items to skip in the query. Useful for paginating requests with more than 100 items in a response.
-        "items": [] // Your Query's filtered response as an associative array of Asset and Entry items
-    }
-    ```
 
 ### Rich Text
-You may encounter Rich Text fields in the PHP response. To Convert to HTML, you may need to look into the [`Contentful\RichText\Renderer` class](https://github.com/contentful/rich-text.php#rendering).
+You may encounter Rich Text fields in the PHP response. To Convert to HTML, you may need to look into the [`Contentful\RichText\Renderer` class](https://github.com/contentful/rich-text.php#rendering). There's  class that can be used within Model classes for rendering Rich Text (`RendersRichText`).
