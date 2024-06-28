@@ -54,7 +54,7 @@ class ContentfulAdapter {
     /**
      * Get Entry By Id
      */
-    public function getEntry(string $id, ?Query $query = null) {
+    public function getEntry(string $id) {
         $entry = $this->client->getEntry($id);
 
         return $entry->jsonSerialize();
@@ -70,9 +70,9 @@ class ContentfulAdapter {
      *  - https://contentful.github.io/contentful.php/api/6.4.0/Contentful/ResourceArray.html#method_jsonSerialize
      */
     public function getEntries(?Query $query = null) {
-        $entries = $this->client->getEntries($query->setInclude(10));
+        $entries = $this->client->getEntries($query->setInclude(10))->getItems();
 
-        return $entries->jsonSerialize();
+        return $entries;
     }
 
     /**
@@ -96,9 +96,9 @@ class ContentfulAdapter {
             ->setContentType($content_type)
             ->setInclude(10);
 
-        $entries = $this->client->getEntries($content_type_query);
+        $entries = $this->client->getEntries($content_type_query)->getItems();
 
-        return $entries->jsonSerialize();
+        return $entries;
     }
 
     /**
@@ -123,9 +123,9 @@ class ContentfulAdapter {
             ->where('metadata.tags.sys.id[in]', $tags)
             ->setInclude(10);
 
-        $entries = $this->client->getEntries($tags_query);
+        $entries = $this->client->getEntries($tags_query)->getItems();
 
-        return $entries->jsonSerialize();
+        return $entries;
     }
 
     /**
@@ -153,8 +153,8 @@ class ContentfulAdapter {
             ->where('metadata.tags.sys.id[in]', $tags)
             ->setInclude(10);
 
-        $entries = $this->client->getEntries($content_type_and_tags_query);
+        $entries = $this->client->getEntries($content_type_and_tags_query)->getItems();
 
-        return $entries->jsonSerialize();
+        return $entries;
     }
 }
