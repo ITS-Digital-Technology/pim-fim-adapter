@@ -20,16 +20,6 @@ PIM/FIM 2.0 Adapter Composer Package - for PHP and WordPress based websites
 
 
 ## Usage
-| Name | Description |
-| ---- | ---- |
-| `getAllPrograms` | List all Programs, no query parameters. |
-| `getCollegeList` | Lists all or some Colleges by Query. Use Query object to filter by specific id(s) |
-| `getLinkedBannerEntriesByEntryId` | Fetches entries (Programs) linked to Banner entries by matching Banner entry Id |
-| `getProgramsByCollege` | This method walks backwards from the College Entry to the Banner Entry and finally to the linked Entries attached to the Banner Entry such as a Program Entry. Using the College Entry Id that's found when doing a lookup of Colleges by `$college_name`, we filter the API by `$college[0]['id']` with the ID of the fields.`college.sys.id` value in the Banner Entry. Finally, we get linked Entries belonging to the Banner entry. **This method will only return Program entries as Banner entries are only attached to Program Entries.** |
-| `getProgramById` | Fetch Program entry by `sys.id` |
-| `getProgramByName` | Fetch Program entry by `fields.name` |
-| `getProgramsByLocationName` | Fetch Programs by linked Location entry's `fields.name` |
-| `getProgramsByMajorName` | Fetch Programs by linked Banner entry's `fields.major` |
 
 ### Contentful Adapter
 The `ContentfulAdapter.php` class file is intended to expose methods that interact with the Contentful API via the Contentful PHP SDK. Each method to get Entries requires a [Query](https://contentful.github.io/contentful.php/api/6.4.0/Contentful/Query.html) object to be passed-in as a parameter. By Default, each Query will automatically resolve reference entries 1 level deep. Additional levels of Link resolution will need to occur via separate get Entry calls
@@ -46,12 +36,19 @@ Below are a list of methods available in the `PIMAdapter` class
 
 | Name | Description |
 | ---- | ---- |
-| 
+| `getAllPrograms` | List all Programs, no query parameters. |
+| `getCollegeList` | Lists all or some Colleges by Query. Use Query object to filter by specific id(s) |
+| `getLinkedBannerEntriesByEntryId` | Fetches entries (Programs) linked to Banner entries by matching Banner entry Id |
+| `getProgramsByCollege` | This method walks backwards from the College Entry to the Banner Entry and finally to the linked Entries attached to the Banner Entry such as a Program Entry. Using the College Entry Id that's found when doing a lookup of Colleges by `$college_name`, we filter the API by `$college[0]['id']` with the ID of the fields.`college.sys.id` value in the Banner Entry. Finally, we get linked Entries belonging to the Banner entry. **This method will only return Program entries as Banner entries are only attached to Program Entries.** |
+| `getProgramById` | Fetch Program entry by `sys.id` |
+| `getProgramByName` | Fetch Program entry by `fields.name` |
+| `getProgramsByLocationName` | Fetch Programs by linked Location entry's `fields.name` |
+| `getProgramsByMajorName` | Fetch Programs by linked Banner entry's `fields.major` |
 
 ### Responses
 Responses are in PHP Array or Contentful [ResourceArray](https://contentful.github.io/contentful.php/api/6.4.0/Contentful/ResourceArray.html) format and structured as the following:
 
-- For `getEntries*` type responses (Contentful `ResourceArray`)
+- For `getEntries*` type responses (Contentful `ResourceArray`), it may be helpful to convert to JSON (`json_encode`) then use Contentful `$client->parseJson()` to return it to PHP Array format.
     ```json
     {
         "sys": {
@@ -62,20 +59,6 @@ Responses are in PHP Array or Contentful [ResourceArray](https://contentful.gith
         "skip": 0, // Number of items to skip in the query. Useful for paginating requests with more than 100 items in a response.
         "items": [] // Your Query's filtered response as an associative array of Asset and Entry items
     }
-    ```
-- For `getCollegeList` responses (PHP Array)
-    ```php
-        [
-            [
-                "id" => "2r8GM7HZA08R7YZUYNvaG" // Contentful Sys Id of the Entry
-                "name" => "D'Amore-McKim School of Business" // Contentful Field name of the Entry
-                "linkedBannerEntries" => [
-                    "5hU7i8t6RsBKplBkJC60Cn", // Contentful Sys Id of the Banner Entry
-                    "130ggg07MiAe68R7yvwsJA" // Contentful Sys Id of the Banner Entry
-                ]
-            ]
-        ]
-        
     ```
 
 ### Rich Text
