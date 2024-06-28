@@ -8,8 +8,6 @@ use NortheasternWeb\PIMFIMAdapter\Adapter;
 use Contentful\Delivery\ClientOptions;
 use Contentful\Delivery\Query;
 
-use function PHPSTORM_META\map;
-
 class PIMAdapter extends Adapter {
     private PIMConfig $config;
     private ContentfulAdapter $adapter;
