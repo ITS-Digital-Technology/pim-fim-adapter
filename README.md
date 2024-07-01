@@ -20,6 +20,9 @@ PIM/FIM 2.0 Adapter Composer Package - for PHP and WordPress based websites
 
 
 ## Usage
+The PiM/FIM adapter package allows you to quickly query results from Contentful without having to build-up complex queries or know the content model. Each response in the PIM/FIM adapter classes returns a Contentful object, this can be converted to a Laravel collection, JSON, or other formats. 
+
+You may see `test/index.php`, it is a testing file that can be used for development and validating responses for each adapter method.
 
 ### Contentful Adapter
 The `ContentfulAdapter.php` class file is intended to expose methods that interact with the Contentful API via the Contentful PHP SDK. Each method to get Entries requires a [Query](https://contentful.github.io/contentful.php/api/6.4.0/Contentful/Query.html) object to be passed-in as a parameter. By Default, each Query will automatically resolve reference entries 1 level deep. Additional levels of Link resolution will need to occur via separate get Entry calls
