@@ -19,6 +19,7 @@ class Entry {
     public function toArray()
     {
         return [
+            'id' => $this->id,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt,
             'revision' => $this->revision,
