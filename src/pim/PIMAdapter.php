@@ -79,7 +79,7 @@ class PIMAdapter extends Adapter {
 
             $banner_entries = $this->adapter->getEntriesByContentType(
                 $this->banner_content_type, 
-                $query
+                $query->setSkip($entry_skip)
             );
 
             foreach ($banner_entries as $linked_entry) {
