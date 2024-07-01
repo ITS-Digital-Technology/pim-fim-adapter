@@ -48,6 +48,15 @@ Below are a list of methods available in the `PIMAdapter` class
 | `getProgramsByLocationName` | Fetch Programs by linked Location entry's `fields.name` |
 | `getProgramsByMajorName` | Fetch Programs by linked Banner entry's `fields.major` |
 
+### FIM
+Below are a list of methods available in the `FIMAdapter` class
+
+| Name | Description |
+| ---- | ---- |
+| `getAllProfiles` | List all Profiles, no query parameters. |
+| `getProfileById` | Fetch Profile entry by `sys.id` |
+| `getProfileByName` | Fetch Profile entry by `fields.displayNameInternal` |
+
 ### Responses
 Responses are in PHP Array or Contentful [ResourceArray](https://contentful.github.io/contentful.php/api/6.4.0/Contentful/ResourceArray.html). Use the methods attached to `ResourceArray` to map data to fields.
 
