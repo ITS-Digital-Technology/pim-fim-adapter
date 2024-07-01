@@ -47,16 +47,39 @@ class Profile extends Entry {
         $this->resume = $item->resume;
         $this->areasOfExpertise = $item->areasOfExpertise;
         $this->trainingCertificates = $item->trainingCertificates;
-        $this->links = $item->links;
-        $this->articles = $item->articles;
-        $this->labWebsites = $item->labWebsites;
-        $this->programs = $item->programs;
-        $this->portrait = $item->portrait;
+        
+        $this->links = collect($item->links)->map(function($link) {
+            return new Link($link);
+        });
+        
+        $this->articles = collect($item->articles)->map(function($article) {
+            return new Link($article);
+        });
+        
+        $this->labWebsites = collect($item->labWebsites)->map(function($labWebsite) {
+            return new Link($labWebsite);
+        });
+
+        // Not yet available in FIM.
+        // $this->programs = collect($item->program)->map(function($program) {
+        //     return new Program($program);
+        // });
+
+        $this->portrait = !is_null($item->portrait) ? [
+            'id' => $item->portrait->getId(),
+            'title' => $item->portrait->getTitle(),
+            'description' => $item->portrait->getDescription(),
+            'file' => $item->portrait->getFile(),
+            'createdAt' => $item->portrait->getSystemProperties()->getCreatedAt(),
+            'updatedAt' => $item->portrait->getSystemProperties()->getUpdatedAt(),
+            'revision' => $item->portrait->getSystemProperties()->getRevision(),
+        ] : null;;
     }
 
     public function toArray() {
         return [
-            'id' => $this->id,
+            ...parent::toArray(),
+ 
             'displayNameInternal' => $this->displayNameInternal,
             'legacyId' => $this->legacyId,
             'banner' => $this->banner,
@@ -71,9 +94,7 @@ class Profile extends Entry {
             'articles' => $this->articles,
             'labWebsites' => $this->labWebsites,
             'programs' => $this->programs,
-            'portrait' => $this->portrait,
-
-            ...parent::toArray()
+            'portrait' => $this->portrait,  
         ];
     }
 }
