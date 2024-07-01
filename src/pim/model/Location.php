@@ -27,14 +27,13 @@ class Location extends Entry {
     public function toArray()
     {
         return [
-            'id' => $this->id,
+            ...parent::toArray(),
+
             'name' => $this->name,
             'stateProvince' => $this->stateProvince,
             'country' => $this->country,
             'visaLabel' => $this->visaLabel,
             'tuitionCurrency' => $this->tuitionCurrency,
-
-            ...parent::toArray()
         ];
     }
 }

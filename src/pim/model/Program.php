@@ -96,7 +96,8 @@ class Program extends Entry {
     public function toArray()
     {
         return[
-            'id' => $this->id,
+            ...parent::toArray(),
+
             'name' => $this->name,
             'legacyId' => $this->legacyId,
             'banner' => $this->banner,
@@ -122,8 +123,6 @@ class Program extends Entry {
             'percentReceivingAid' => $this->percentReceivingAid,
             'accreditation' => $this->accreditation,
             'accreditationDescriptionOverride' => $this->accreditationDescriptionOverride,
-        
-            ...parent::toArray()
         ];
     }
 }

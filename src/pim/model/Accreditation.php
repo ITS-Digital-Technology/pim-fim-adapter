@@ -36,14 +36,13 @@ class Accreditation extends Entry {
     public function toArray()
     {
         return [
-            'id' => $this->id,
+            ...parent::toArray(),
+
             'name' => $this->name,
             'abbreviation' => $this->abbreviation,
             'url' => $this->url,
             'description' => $this->description,
-            'logo' => $this->logo,
-            
-            ...parent::toArray()
+            'logo' => $this->logo,            
         ];
     }
 }

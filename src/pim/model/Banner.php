@@ -32,7 +32,8 @@ class Banner extends Entry {
     public function toArray()
     {
         return [
-            'id' => $this->id,
+            ...parent::toArray(),
+
             'bannerId' => $this->bannerId,
             'friendlyName' => $this->friendlyName,
             'major' => $this->major,
@@ -40,8 +41,6 @@ class Banner extends Entry {
             'undergradDegreeType' => $this->undergradDegreeType,
             'college' => $this->college,
             'additionalColleges' => $this->additionalColleges,
-
-            ...parent::toArray()
         ];
     }
 }

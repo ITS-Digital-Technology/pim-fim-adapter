@@ -32,15 +32,14 @@ class College extends Entry {
     public function toArray()
     {
         return [
-            'id' => $this->id,
+            ...parent::toArray(),
+
             'legacyId' => $this->legacyId,
             'name' => $this->name,
             'requirements' => $this->requirements,
             'applyNowLink' => $this->applyNowLink,
             'tuitionCostPerCredit' => $this->tuitionCostPerCredit,
             'deadline' => $this->deadline,
-
-            ...parent::toArray()
         ];
     }
 }
