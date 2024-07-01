@@ -5,10 +5,6 @@ namespace NortheasternWeb\PIMFIMAdapter\PIM\Config;
 use NortheasternWeb\PIMFIMAdapter\AdapterConfig;
 
 class PIMConfig extends AdapterConfig {
-    public string $space_id;
-    public string $access_token;
-    public string $environment_id;
-
     public function __construct() {
         parent::__construct();
     }
