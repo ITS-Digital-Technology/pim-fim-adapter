@@ -68,11 +68,13 @@ Below are a list of methods available in the `PIMAdapter` class
 ### FIM
 Below are a list of methods available in the `FIMAdapter` class
 
-| Name | Description |
-| ---- | ---- |
-| `getAllProfiles` | List all Profiles, no query parameters. |
-| `getProfileById` | Fetch Profile entry by `sys.id` |
-| `getProfileByName` | Fetch Profile entry by `fields.displayNameInternal` |
+| Name | Parameters | Description |
+| ---- | ---- | ---- |
+| `getAllProfiles` | N/A | List all Profiles, no query parameters. |
+| `getProfileById` | string `$id` | Fetch Profile entry by `sys.id` |
+| `getProfileByName` | string `name` | Fetch Profile entry by `fields.banner.fields.displayNameInternal` |
+| `getProfilesByCollege` | string `$college_name` | Fetch Profile entries by `fields.banner.fields.collegeAffiliation` |
+| `getProfilesByCustom` | [Query](https://contentful.github.io/contentful.php/api/6.4.0/Contentful/Query.html) `$query` | Fetch Profiles by Custom [Query](https://contentful.github.io/contentful.php/api/6.4.0/Contentful/Query.html) |
 
 ### Responses
 Responses are in PHP Array or Contentful [ResourceArray](https://contentful.github.io/contentful.php/api/6.4.0/Contentful/ResourceArray.html). Use the methods attached to `ResourceArray` to map data to fields.

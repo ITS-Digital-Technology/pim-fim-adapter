@@ -58,7 +58,7 @@ class FIMAdapter extends Adapter {
     /**
      * Get Profile By Name
      * 
-     * Fetch Profile entry by fields.displayNameInternal
+     * Fetch Profile entry by fields.banner.fields.displayNameInternal
      * 
      * @param string $name
      * 
@@ -66,7 +66,8 @@ class FIMAdapter extends Adapter {
      */
     public function getProfileByName(string $name = '') {
         $query = (new Query)
-            ->where('fields.displayNameInternal', $name);
+            ->where('fields.banner.sys.contentType.sys.id', 'banner')
+            ->where('fields.banner.fields.displayNameInternal[match]', $name);
         
         $entries = $this->adapter->getEntriesByContentType(
             $this->profile_content_type,
@@ -75,4 +76,45 @@ class FIMAdapter extends Adapter {
 
         return $entries;
     }
+
+
+    /**
+     * Get Profiles By College
+     * 
+     * Fetch Profile entry by fields.banner.fields.collegeAffiliation
+     * 
+     * @param string $college_name
+     * 
+     * @return ResourceArray $entries
+     */
+    public function getProfilesByCollege(string $college_name = '') {
+        $query = (new Query)
+            ->where('fields.banner.sys.contentType.sys.id', 'banner')
+            ->where('fields.banner.fields.collegeAffiliation[match]', $college_name);
+        
+        $entries = $this->adapter->getEntriesByContentType(
+            $this->profile_content_type,
+            $query
+        );
+
+        return $entries;
+    }
+
+
+    /**
+     * Get Profiles By Custom Query
+     * 
+     * @param ?Query $query null
+     * 
+     * @return ResourceArray $entries
+     */
+    public function getProfilesByCustom(?Query $query = null) {
+        $entries = $this->adapter->getEntriesByContentType(
+            $this->profile_content_type,
+            $query
+        );
+
+        return $entries;
+    }
+
 }
