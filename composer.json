@@ -7,6 +7,9 @@
         "FIM adapter"
     ],
     "autoload": {
+        "files": [
+            "src/helpers/getAllContentfulEntries.php"
+        ],
         "psr-4": {
             "NortheasternWeb\\PIMFIMAdapter\\": "src"
         }
