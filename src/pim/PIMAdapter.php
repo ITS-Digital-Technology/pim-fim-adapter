@@ -8,6 +8,8 @@ use NortheasternWeb\PIMFIMAdapter\Adapter;
 use Contentful\Delivery\ClientOptions;
 use Contentful\Delivery\Query;
 
+use function NortheasternWeb\PIMFIMAdapter\Helpers\{getAllContentfulEntries};
+
 class PIMAdapter extends Adapter {
     private PIMConfig $config;
     private ContentfulAdapter $adapter;
@@ -30,71 +32,9 @@ class PIMAdapter extends Adapter {
      * List all Programs, no query parameters.
      */
     public function getAllPrograms() {
-        $entries = $this->adapter->getEntriesByContentType(
-            $this->program_content_type
-        );
+        $entries = getAllContentfulEntries($this->adapter, $this->program_content_type);
 
         return $entries;
-    }
-
-    /**
-     * Get College List
-     * 
-     * Lists all or some Colleges by Query. Use Query object to filter by specific id(s)
-     * 
-     * e.g., `$query->where('fields.name[match]', 'collegeName')`
-     *
-     * @param ?Query $query null
-     *
-     * @return \Contentful\Core\Resource\ResourceArray $entries
-     */
-    public function getCollegeList(?Query $query = null) {
-        $entries = $this->adapter->getEntriesByContentType(
-            $this->college_content_type,
-            $query
-        );
-
-        return $entries;
-    }
-
-    /**
-     * Get Banner Entries By Entry Id
-     * 
-     * Fetches entries (Programs) linked to Banner entries by matching Banner entry Id
-     * 
-     * @param string $entry_id
-     * 
-     * @return $linked_array
-     */
-    public function getLinkedBannerEntriesByEntryId($entry_id) {
-        $entry_skip = 0;
-        $entry_limit = 1;
-        $linked_array = [];
-
-        $query = (new Query)
-            ->select(['sys.id'])
-            ->linksToEntry($entry_id)
-            ->orderBy('sys.createdAt');
-        do {
-
-            $banner_entries = $this->adapter->getEntriesByContentType(
-                $this->banner_content_type, 
-                $query->setSkip($entry_skip)
-            );
-
-            foreach ($banner_entries as $linked_entry) {
-                array_push($linked_array, $linked_entry->getId());
-            }
-
-            if(count($banner_entries) > 0) {
-                $entry_skip += $entry_limit;
-            } else {
-                break;
-            }
-
-        } while(0);
-
-        return $linked_array;
     }
 
     /**
@@ -210,10 +150,7 @@ class PIMAdapter extends Adapter {
             ->where('fields.location.sys.contentType.sys.id', 'location')
             ->where('fields.location.fields.name[match]', $name);
 
-        $entries = $this->adapter->getEntriesByContentType(
-            $this->program_content_type,
-            $query
-        );
+        $entries = getAllContentfulEntries($this->adapter, $this->program_content_type, $query);
 
         return $entries;
     }
@@ -230,10 +167,7 @@ class PIMAdapter extends Adapter {
             ->where('fields.banner.sys.contentType.sys.id', 'banner')
             ->where('fields.banner.fields.major[match]', $major);
 
-        $entries = $this->adapter->getEntriesByContentType(
-            $this->program_content_type,
-            $query
-        );
+        $entries = getAllContentfulEntries($this->adapter, $this->program_content_type, $query);
 
         return $entries;
     }
@@ -252,10 +186,7 @@ class PIMAdapter extends Adapter {
             ->where('fields.banner.sys.contentType.sys.id', 'banner')
             ->where('fields.banner.fields.degreeType', $degreeType);
         
-        $entries = $this->adapter->getEntriesByContentType(
-            $this->program_content_type,
-            $query
-        );
+        $entries = getAllContentfulEntries($this->adapter, $this->program_content_type, $query);
 
         return $entries;
     }
@@ -274,10 +205,7 @@ class PIMAdapter extends Adapter {
             ->where('fields.banner.sys.contentType.sys.id', 'banner')
             ->where('fields.banner.fields.undergradDegreeType', $undergradDegreeType);
         
-        $entries = $this->adapter->getEntriesByContentType(
-            $this->program_content_type,
-            $query
-        );
+        $entries = getAllContentfulEntries($this->adapter, $this->program_content_type, $query);
 
         return $entries;
     }
@@ -291,11 +219,65 @@ class PIMAdapter extends Adapter {
      * @return ResourceArray $entries
      */
     public function getProgramsByCustom(?Query $query = null) {
-        $entries = $this->adapter->getEntriesByContentType(
-            $this->program_content_type,
-            $query
-        );
+        $entries = getAllContentfulEntries($this->adapter, $this->program_content_type, $query);
 
         return $entries;
+    }
+
+    /**
+     * Get College List
+     * 
+     * Lists all or some Colleges by Query. Use Query object to filter by specific id(s)
+     * 
+     * e.g., `$query->where('fields.name[match]', 'collegeName')`
+     *
+     * @param ?Query $query null
+     *
+     * @return \Contentful\Core\Resource\ResourceArray $entries
+     */
+    public function getCollegeList(?Query $query = null) {
+        $entries = getAllContentfulEntries($this->adapter, $this->college_content_type, $query);
+
+        return $entries;
+    }
+
+    /**
+     * Get Banner Entries By Entry Id
+     * 
+     * Fetches entries (Programs) linked to Banner entries by matching Banner entry Id
+     * 
+     * @param string $entry_id
+     * 
+     * @return array $linked_array
+     */
+    public function getLinkedBannerEntriesByEntryId($entry_id) {
+        $entry_skip = 0;
+        $entry_limit = 100;
+        $linked_array = [];
+
+        $query = (new Query)
+            ->select(['sys.id'])
+            ->linksToEntry($entry_id)
+            ->orderBy('sys.createdAt');
+        do {
+
+            $banner_entries = $this->adapter->getEntriesByContentType(
+                $this->banner_content_type, 
+                $query->setSkip($entry_skip)
+            );
+
+            foreach ($banner_entries as $linked_entry) {
+                array_push($linked_array, $linked_entry->getId());
+            }
+
+            if(count($banner_entries) > 0) {
+                $entry_skip += $entry_limit;
+            } else {
+                break;
+            }
+
+        } while(0);
+
+        return $linked_array;
     }
 }
