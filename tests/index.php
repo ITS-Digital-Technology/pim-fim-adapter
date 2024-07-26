@@ -40,6 +40,15 @@ $profilebyname = $FIMAdapter->getProfileByName('Kenneth Williams');
 $json_pretty = json_encode($profilebyname, JSON_PRETTY_PRINT); 
 echo "<pre>" . $json_pretty . "<pre/>"; 
 
+echo "<h2>getProfilesByCollege Method (Using 'Khoury')</h2>";
+
+$profilebyname = $FIMAdapter->getProfilesByCollege('Khoury');
+
+$json_pretty = json_encode($profilebyname, JSON_PRETTY_PRINT); 
+echo "<pre>" . $json_pretty . "<pre/>"; 
+
+
+
 
 echo "<h1>PIM Test</h1>";
 
