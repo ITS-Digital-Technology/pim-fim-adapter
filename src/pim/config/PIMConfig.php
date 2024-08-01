@@ -1,46 +1,29 @@
 <?php
 
-namespace NortheasternWeb\PIMFIMAdapter\PIM\Config;
+namespace Northeastern\PIMFIMAdapter\PIM\Config;
 
-use Dotenv\Dotenv;
+use Northeastern\PIMFIMAdapter\AdapterConfig;
 
-class PIMConfig {
-    private string $access_token;
-    private string $space_id;
-    private string $environment_id;
+class PIMConfig extends AdapterConfig {
+    public function __construct() {
+        parent::__construct();
+    }
 
-    function __construct() {
-        $dotenv = Dotenv::createImmutable(__DIR__);
-        $dotenv->load();
+    public function getSpaceId() {
+        $space_id = $_ENV['PIM_SPACE_ID'];
+
+        return $space_id;
+    }
+
+    public function getAccessToken() {        
+        $access_token = $_ENV['PIM_ACCESS_TOKEN']; 
         
-        $this->access_token = !defined('PIM_ACCESS_TOKEN') 
-            ?? define('PIM_ACCESS_TOKEN', (
-                function_exists('getenv') 
-                    ? getenv('PIM_ACCESS_TOKEN', '') 
-                    : ''
-            )
-        );
+        return $access_token;
+    }
 
-        $this->space_id = !defined('PIM_SPACE_ID') 
-            ?? define('PIM_SPACE_ID', (
-                function_exists('getenv') 
-                    ? getenv('PIM_SPACE_ID', '') 
-                    : ''
-            )
-        );
+    public function getEnvironmentId() {
+        $environment_id = $_ENV['PIM_ENVIRONMENT_ID'];
 
-        $this->environment_id = !defined('PIM_ENVIRONMENT_ID') 
-            ?? define('PIM_ENVIRONMENT_ID', (
-                function_exists('getenv') 
-                    ? getenv('PIM_ENVIRONMENT_ID') 
-                    : 'dev'
-            )
-        );
-
-        return [
-            'pim_access_token' => $this->access_token,
-            'pim_space_id' => $this->space_id,
-            'pim_environment_id' => $this->environment_id
-        ];
+        return $environment_id;
     }
 }
