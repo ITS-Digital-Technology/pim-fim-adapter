@@ -1,8 +1,7 @@
 <?php
 
 use Dotenv\Dotenv;
-use NortheasternWeb\PIMFIMAdapter\ContentfulAdapter;
-use NortheasternWeb\PIMFIMAdapter\FIM\FIMAdapter;
+use Northeastern\PIMFIMAdapter\FIM\FIMAdapter;
 
 require_once realpath('./vendor/autoload.php');
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
@@ -19,7 +18,6 @@ $profiles = $FIMAdapter->getAllProfiles();
 $json_pretty = json_encode($profiles, JSON_PRETTY_PRINT); 
 echo "<pre>" . $json_pretty . "<pre/>";
 
-
 echo "<h2>getProfileById Method (Using '6TYr2iS5mVIFeL7UE88y6Q')</h2>";
 
 $profilebyid = $FIMAdapter->getProfileById('6TYr2iS5mVIFeL7UE88y6Q');
@@ -34,3 +32,10 @@ $profilebyname = $FIMAdapter->getProfileByName('Kenneth Williams');
 
 $json_pretty = json_encode($profilebyname, JSON_PRETTY_PRINT); 
 echo "<pre>" . $json_pretty . "<pre/>";
+
+echo "<h2>getProfilesByCollege Method (Using 'Khoury')</h2>";
+
+$profilebyname = $FIMAdapter->getProfilesByCollege('Khoury');
+
+$json_pretty = json_encode($profilebyname, JSON_PRETTY_PRINT); 
+echo "<pre>" . $json_pretty . "<pre/>"; 
