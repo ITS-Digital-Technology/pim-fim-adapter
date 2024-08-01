@@ -7,8 +7,12 @@
         "FIM adapter"
     ],
     "autoload": {
+        "files": [
+            "src/helpers/getAllContentfulEntries.php",
+            "src/helpers/mapEntriesToModel.php"
+        ],
         "psr-4": {
-            "NortheasternWeb\\PimFimAdapter\\": "src/"
+            "Northeastern\\PIMFIMAdapter\\": "src"
         }
     },
     "authors": [
@@ -30,7 +34,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "contentful/contentful": "^7.0",
-        "contentful/rich-text": "^4.0",
+        "illuminate/support": "^11.12",
         "vlucas/phpdotenv": "^5.6"
     },
     "require-dev": {
