@@ -1,12 +1,15 @@
 <?php
 
-namespace NortheasternWeb\PIMFIMAdapter\Helpers;
+namespace Northeastern\PIMFIMAdapter\Helpers;
 
 use Contentful\Delivery\Query;
-use NortheasternWeb\PIMFIMAdapter\ContentfulAdapter;
+use Contentful\Delivery\Resource\Entry as ResourceEntry;
+use Northeastern\PIMFIMAdapter\ContentfulAdapter;
+
+use function Northeastern\PIMFIMAdapter\Helpers\{mapEntriesToModel};
 
 /**
- * Get All Contentful Entries via API
+ * Get All Contentful Entries via API (auto-paginate)
  * 
  * @param ContentfulAdapter $adapter
  * @param string $content_type
@@ -14,11 +17,18 @@ use NortheasternWeb\PIMFIMAdapter\ContentfulAdapter;
  *
  * @return $contentful_entries
  */
-function getAllContentfulEntries(ContentfulAdapter $adapter, string $content_type, Query $query = null)
-{
-    $contentful_entries = [];
+function getAllContentfulEntries(
+    ContentfulAdapter $adapter, 
+    string $content_type, 
+    Query $query = null
+) {
+    $contentful_entries = null;
     $limit = 100;
     $skip = 0;
+
+    if (is_null($query)) {
+        $query = new Query();
+    }
 
     $query = $query
         ->orderBy('sys.createdAt')
@@ -35,9 +45,9 @@ function getAllContentfulEntries(ContentfulAdapter $adapter, string $content_typ
 
         $skip += $limit;
 
-        foreach ($entries as $entry) {
-            array_push($contentful_entries, $entry);
-        }
+        $contentful_entries = !is_null($contentful_entries) 
+            ? $contentful_entries->merge(mapEntriesToModel($content_type, $entries)) 
+            : mapEntriesToModel($content_type, $entries);
 
     } while(count($entries) > 0);
 
