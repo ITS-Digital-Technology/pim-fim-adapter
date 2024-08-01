@@ -1,7 +1,7 @@
 <?php
-namespace NortheasternWeb\PIMFIMAdapter\FIM\Model;
+namespace Northeastern\PIMFIMAdapter\FIM\Model;
 
-use NortheasternWeb\PIMFIMAdapter\Model\Entry;
+use Northeastern\PIMFIMAdapter\Model\Entry;
 use Contentful\Delivery\Resource\Entry as ResourceEntry;
 
 class Banner extends Entry {

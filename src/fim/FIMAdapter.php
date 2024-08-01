@@ -1,10 +1,10 @@
 <?php
 
-namespace NortheasternWeb\PIMFIMAdapter\FIM;
+namespace Northeastern\PIMFIMAdapter\FIM;
 
-use NortheasternWeb\PIMFIMAdapter\FIM\Config\FIMConfig;
-use NortheasternWeb\PIMFIMAdapter\ContentfulAdapter;
-use NortheasternWeb\PIMFIMAdapter\Adapter;
+use Northeastern\PIMFIMAdapter\FIM\Config\FIMConfig;
+use Northeastern\PIMFIMAdapter\ContentfulAdapter;
+use Northeastern\PIMFIMAdapter\Adapter;
 use Contentful\Delivery\ClientOptions;
 use Contentful\Delivery\Query;
 

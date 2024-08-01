@@ -1,9 +1,9 @@
 <?php
 
-namespace NortheasternWeb\PIMFIMAdapter\PIM\Model;
+namespace Northeastern\PIMFIMAdapter\PIM\Model;
 
 use Contentful\Delivery\Resource\Entry as ResourceEntry;
-use NortheasternWeb\PIMFIMAdapter\Model\Entry;
+use Northeastern\PIMFIMAdapter\Model\Entry;
 
 class Location extends Entry {
 

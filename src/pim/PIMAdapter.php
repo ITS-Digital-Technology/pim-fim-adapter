@@ -1,14 +1,15 @@
 <?php
 
-namespace NortheasternWeb\PIMFIMAdapter\PIM;
+namespace Northeastern\PIMFIMAdapter\PIM;
 
-use NortheasternWeb\PIMFIMAdapter\PIM\Config\PIMConfig;
-use NortheasternWeb\PIMFIMAdapter\ContentfulAdapter;
-use NortheasternWeb\PIMFIMAdapter\Adapter;
+use Northeastern\PIMFIMAdapter\PIM\Config\PIMConfig;
+use Northeastern\PIMFIMAdapter\PIM\Model\Program;
+use Northeastern\PIMFIMAdapter\ContentfulAdapter;
+use Northeastern\PIMFIMAdapter\Adapter;
 use Contentful\Delivery\ClientOptions;
 use Contentful\Delivery\Query;
 
-use function NortheasternWeb\PIMFIMAdapter\Helpers\{getAllContentfulEntries};
+use function Northeastern\PIMFIMAdapter\Helpers\{getAllContentfulEntries, mapEntriesToModel};
 
 class PIMAdapter extends Adapter {
     private PIMConfig $config;
@@ -33,6 +34,50 @@ class PIMAdapter extends Adapter {
      */
     public function getAllPrograms() {
         $entries = getAllContentfulEntries($this->adapter, $this->program_content_type);
+
+        return $entries;
+    }
+
+    /**
+     * Get Program By Id
+     * 
+     * Fetch Program entry by sys.id
+     * 
+     * @param string $id
+     * 
+     * @return ResourceArray $entries
+     */
+    public function getProgramById(string $id = '') {
+        $query = (new Query)
+            ->where('sys.id', $id);
+        
+        $entries = $this->adapter->getEntriesByContentType(
+            $this->program_content_type,
+            $query
+        );
+
+        $entries_array = mapEntriesToModel($this->program_content_type, $entries);
+
+        return $entries_array;
+    }
+
+    /**
+     * Get Program By Name
+     * 
+     * Fetch Program entry by fields.name
+     * 
+     * @param string $name
+     * 
+     * @return ResourceArray $entries
+     */
+    public function getProgramByName(string $name = '') {
+        $query = (new Query)
+            ->where('fields.name', $name);
+        
+        $entries = $this->adapter->getEntriesByContentType(
+            $this->program_content_type,
+            $query
+        );
 
         return $entries;
     }
@@ -64,7 +109,7 @@ class PIMAdapter extends Adapter {
 
         // Get List of Banner Entries used by College
         $banner_list = collect($college)->map(function($entry, $key) {
-            return $this->getLinkedBannerEntriesByEntryId($entry->getId());
+            return $this->getLinkedBannerEntriesByEntryId($entry['id']);
         });
 
         // Iterate over $banner_list arrays of $college_entry array.
@@ -92,50 +137,10 @@ class PIMAdapter extends Adapter {
             $this->program_content_type,
             $query->where('sys.id[in]', $program_ids->all())
         );
+
+        $programs = mapEntriesToModel($this->program_content_type, $program_entries);
         
-        return $program_entries;
-    }
-
-    /**
-     * Get Program By Id
-     * 
-     * Fetch Program entry by sys.id
-     * 
-     * @param string $id
-     * 
-     * @return ResourceArray $entries
-     */
-    public function getProgramById(string $id = '') {
-        $query = (new Query)
-            ->where('sys.id', $id);
-        
-        $entries = $this->adapter->getEntriesByContentType(
-            $this->program_content_type,
-            $query
-        );
-
-        return $entries;
-    }
-
-    /**
-     * Get Program By Name
-     * 
-     * Fetch Program entry by fields.name
-     * 
-     * @param string $name
-     * 
-     * @return ResourceArray $entries
-     */
-    public function getProgramByName(string $name = '') {
-        $query = (new Query)
-            ->where('fields.name', $name);
-        
-        $entries = $this->adapter->getEntriesByContentType(
-            $this->program_content_type,
-            $query
-        );
-
-        return $entries;
+        return $programs;
     }
 
     /**

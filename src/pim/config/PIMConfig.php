@@ -1,8 +1,8 @@
 <?php
 
-namespace NortheasternWeb\PIMFIMAdapter\PIM\Config;
+namespace Northeastern\PIMFIMAdapter\PIM\Config;
 
-use NortheasternWeb\PIMFIMAdapter\AdapterConfig;
+use Northeastern\PIMFIMAdapter\AdapterConfig;
 
 class PIMConfig extends AdapterConfig {
     public function __construct() {

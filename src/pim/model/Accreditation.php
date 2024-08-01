@@ -1,10 +1,10 @@
 <?php
 
-namespace NortheasternWeb\PIMFIMAdapter\PIM\Model;
+namespace Northeastern\PIMFIMAdapter\PIM\Model;
 
-use NortheasternWeb\PIMFIMAdapter\Concerns\RendersRichText;
+use Northeastern\PIMFIMAdapter\Concerns\RendersRichText;
 use Contentful\Delivery\Resource\Entry as ResourceEntry;
-use NortheasternWeb\PIMFIMAdapter\Model\Entry;
+use Northeastern\PIMFIMAdapter\Model\Entry;
 
 class Accreditation extends Entry {
     use RendersRichText;
