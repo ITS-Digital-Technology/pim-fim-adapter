@@ -1,6 +1,6 @@
 <?php
 
-namespace NortheasternWeb\PIMFIMAdapter\Concerns;
+namespace Northeastern\PIMFIMAdapter\Concerns;
 
 use Contentful\RichText\Renderer;
 

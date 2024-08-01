@@ -1,6 +1,6 @@
 <?php
 
-namespace NortheasternWeb\PIMFIMAdapter\Model;
+namespace Northeastern\PIMFIMAdapter\Model;
 
 class Entry {
     protected $id;

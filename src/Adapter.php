@@ -1,9 +1,9 @@
 <?php
 
-namespace NortheasternWeb\PIMFIMAdapter;
+namespace Northeastern\PIMFIMAdapter;
 
-use NortheasternWeb\PIMFIMAdapter\ContentfulAdapter;
-use NortheasternWeb\PIMFIMAdapter\AdapterConfig;
+use Northeastern\PIMFIMAdapter\ContentfulAdapter;
+use Northeastern\PIMFIMAdapter\AdapterConfig;
 use Contentful\Delivery\ClientOptions;
 
 abstract class Adapter {

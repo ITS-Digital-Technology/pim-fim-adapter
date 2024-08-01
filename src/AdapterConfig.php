@@ -1,6 +1,6 @@
 <?php
 
-namespace NortheasternWeb\PIMFIMAdapter;
+namespace Northeastern\PIMFIMAdapter;
 
 abstract class AdapterConfig {
 

@@ -1,13 +1,11 @@
 <?php
 
-namespace NortheasternWeb\PIMFIMAdapter;
+namespace Northeastern\PIMFIMAdapter;
 
-use Contentful\Core\Exception\NotFoundException;
 use Contentful\Core\Resource\ResourceArray;
 use Contentful\Delivery\ClientOptions;
 use Contentful\Delivery\Client;
 use Contentful\Delivery\Query;
-use Contentful\Delivery\Resource\Entry;
 
 /**
  * Contentful Client Adapter
