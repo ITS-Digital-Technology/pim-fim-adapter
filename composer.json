@@ -8,10 +8,11 @@
     ],
     "autoload": {
         "files": [
-            "src/helpers/getAllContentfulEntries.php"
+            "src/helpers/getAllContentfulEntries.php",
+            "src/helpers/mapEntriesToModel.php"
         ],
         "psr-4": {
-            "NortheasternWeb\\PIMFIMAdapter\\": "src"
+            "Northeastern\\PIMFIMAdapter\\": "src"
         }
     },
     "authors": [
