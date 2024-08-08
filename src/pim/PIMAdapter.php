@@ -79,7 +79,9 @@ class PIMAdapter extends Adapter {
             $query
         );
 
-        return $entries;
+        $entries_array = mapEntriesToModel($this->program_content_type, $entries);
+
+        return $entries_array;
     }
 
     /**
