@@ -56,8 +56,8 @@ class Program extends Entry {
         $this->name = $item->name;
         $this->legacyId = $item->legacyId;
 
-        $this->banner = (new Banner($item->banner))->toArray();
-        $this->location = (new Location($item->location))->toArray();
+        $this->banner = !is_null($item->banner) ? (new Banner($item->banner))->toArray() : null;
+        $this->location = !is_null($item->location) ? (new Location($item->location))->toArray() : null;
 
         $this->format = $item->format;
 

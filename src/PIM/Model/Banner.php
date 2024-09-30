@@ -23,10 +23,10 @@ class Banner extends Entry {
         $this->major = $item->major;
         $this->degreeType = $item->degreeType;
         $this->undergradDegreeType = $item->undergradDegreeType;
-        $this->college = (new College($item->college))->toArray();
-        $this->additionalColleges = collect($item->additionalColleges)->map(function ($college) {
+        $this->college = !is_null($item->college) ? (new College($item->college))->toArray() : null;
+        $this->additionalColleges = !is_null($item->additionalColleges) ? collect($item->additionalColleges)->map(function ($college) {
             return (new College($college))->toArray();
-        });
+        }) : null;
     }
 
     public function toArray()
