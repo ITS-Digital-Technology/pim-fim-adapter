@@ -32,10 +32,12 @@ class Program extends Entry {
     protected $entryTerms;
 
     protected $deadline;
+    protected $deadlineOverview;
 
     protected ?string $applyNowLink;
 
     protected $requirements;
+    protected $tuitionCalculator;
     
     protected $tuition;
 
@@ -77,12 +79,13 @@ class Program extends Entry {
         $this->entryTerms = $item->entryTerms;
         
         $this->deadline = $item->deadline;
+        $this->deadlineOverview = $this->renderRichTextNodes($item->deadlineOverview);
         
         $this->applyNowLink = $item->applyNowLink;
         
         $this->requirements = $this->renderRichTextNodes($item->requirements);
         
-        $this->tuition = $item->tuition;
+        $this->tuitionCalculator = $item->tuitionCalculator;
         $this->programFees = $item->programFees;
         $this->averageAid = $item->averageAid;
         $this->percentReceivingAid = $item->percentReceivingAid;
@@ -115,8 +118,10 @@ class Program extends Entry {
             'stackableCertificate' => $this->stackableCertificate,
             'entryTerms' => $this->entryTerms,
             'deadline' => $this->deadline,
+            'deadlineOverview' => $this->deadlineOverview,
             'applyNowLink' => $this->applyNowLink,
             'requirements' => $this->requirements,
+            'tuitionCalculator' => $this->tuitionCalculator,
             'tuition' => $this->tuition,
             'programFees' => $this->programFees,
             'averageAid' => $this->averageAid,

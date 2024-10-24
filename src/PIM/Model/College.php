@@ -12,10 +12,12 @@ class College extends Entry {
     protected $id;
     protected $legacyId;
     protected $name;
+    protected $link;
     protected $requirements;
     protected $applyNowLink;
     protected $tuitionCostPerCredit;
     protected $deadline;
+    protected $deadlineOverview;
 
     public function __construct(ResourceEntry $item)
     {
@@ -23,10 +25,12 @@ class College extends Entry {
         
         $this->legacyId = $item->legacyId;
         $this->name = $item->name;
+        $this->link = $item->link;
         $this->requirements = $this->renderRichTextNodes($item->requirements);
         $this->applyNowLink = $item->applyNowLink;
         $this->tuitionCostPerCredit = $item->tuitionCostPerCredit;
         $this->deadline = $item->deadline;
+        $this->deadlineOverview = $this->renderRichTextNodes($item->deadlineOverview);
     }
 
     public function toArray()
@@ -36,10 +40,12 @@ class College extends Entry {
 
             'legacyId' => $this->legacyId,
             'name' => $this->name,
+            'link' => $this->link,
             'requirements' => $this->requirements,
             'applyNowLink' => $this->applyNowLink,
             'tuitionCostPerCredit' => $this->tuitionCostPerCredit,
             'deadline' => $this->deadline,
+            'deadlineOverview' => $this->deadlineOverview,
         ];
     }
 }
