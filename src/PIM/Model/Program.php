@@ -38,7 +38,6 @@ class Program extends Entry {
 
     protected $requirements;
     protected $tuitionCalculator;
-    
     protected $tuition;
 
     protected $programFees;
@@ -86,6 +85,7 @@ class Program extends Entry {
         $this->requirements = $this->renderRichTextNodes($item->requirements);
         
         $this->tuitionCalculator = $item->tuitionCalculator;
+        $this->tuition = $item->tuition;
         $this->programFees = $item->programFees;
         $this->averageAid = $item->averageAid;
         $this->percentReceivingAid = $item->percentReceivingAid;
