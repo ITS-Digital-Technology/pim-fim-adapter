@@ -19,8 +19,8 @@ class Program extends Entry {
     protected $commitment;
 
     protected $durationUnit;
-    protected int|null $durationLowerRangeValue;
-    protected int|null $durationUpperRangeValue;
+    protected int|float|null $durationLowerRangeValue;
+    protected int|float|null $durationUpperRangeValue;
 
     protected ?bool $visaEligible;
     protected ?bool $stem;
@@ -35,6 +35,7 @@ class Program extends Entry {
     protected $deadlineOverview;
 
     protected ?string $applyNowLink;
+    protected ?string $curriculumLink;
 
     protected $requirements;
     protected $tuitionCalculator;
@@ -81,6 +82,7 @@ class Program extends Entry {
         $this->deadlineOverview = $this->renderRichTextNodes($item->deadlineOverview);
         
         $this->applyNowLink = $item->applyNowLink;
+        $this->curriculumLink = $item->curriculumLink;
         
         $this->requirements = $this->renderRichTextNodes($item->requirements);
         
@@ -120,6 +122,7 @@ class Program extends Entry {
             'deadline' => $this->deadline,
             'deadlineOverview' => $this->deadlineOverview,
             'applyNowLink' => $this->applyNowLink,
+            'curriculumLink' => $this->curriculumLink,
             'requirements' => $this->requirements,
             'tuitionCalculator' => $this->tuitionCalculator,
             'tuition' => $this->tuition,
