@@ -19,8 +19,8 @@ class Program extends Entry {
     protected $commitment;
 
     protected $durationUnit;
-    protected int|null $durationLowerRangeValue;
-    protected int|null $durationUpperRangeValue;
+    protected int|float|null $durationLowerRangeValue;
+    protected int|float|null $durationUpperRangeValue;
 
     protected ?bool $visaEligible;
     protected ?bool $stem;
