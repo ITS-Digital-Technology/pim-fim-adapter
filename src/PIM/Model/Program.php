@@ -19,8 +19,8 @@ class Program extends Entry {
     protected $commitment;
 
     protected $durationUnit;
-    protected int|null $durationLowerRangeValue;
-    protected int|null $durationUpperRangeValue;
+    protected int|float|null $durationLowerRangeValue;
+    protected int|float|null $durationUpperRangeValue;
 
     protected ?bool $visaEligible;
     protected ?bool $stem;
@@ -32,11 +32,13 @@ class Program extends Entry {
     protected $entryTerms;
 
     protected $deadline;
+    protected $deadlineOverview;
 
     protected ?string $applyNowLink;
+    protected ?string $curriculumLink;
 
     protected $requirements;
-    
+    protected $tuitionCalculator;
     protected $tuition;
 
     protected $programFees;
@@ -77,11 +79,14 @@ class Program extends Entry {
         $this->entryTerms = $item->entryTerms;
         
         $this->deadline = $item->deadline;
+        $this->deadlineOverview = $this->renderRichTextNodes($item->deadlineOverview);
         
         $this->applyNowLink = $item->applyNowLink;
+        $this->curriculumLink = $item->curriculumLink;
         
         $this->requirements = $this->renderRichTextNodes($item->requirements);
         
+        $this->tuitionCalculator = $item->tuitionCalculator;
         $this->tuition = $item->tuition;
         $this->programFees = $item->programFees;
         $this->averageAid = $item->averageAid;
@@ -115,8 +120,11 @@ class Program extends Entry {
             'stackableCertificate' => $this->stackableCertificate,
             'entryTerms' => $this->entryTerms,
             'deadline' => $this->deadline,
+            'deadlineOverview' => $this->deadlineOverview,
             'applyNowLink' => $this->applyNowLink,
+            'curriculumLink' => $this->curriculumLink,
             'requirements' => $this->requirements,
+            'tuitionCalculator' => $this->tuitionCalculator,
             'tuition' => $this->tuition,
             'programFees' => $this->programFees,
             'averageAid' => $this->averageAid,
