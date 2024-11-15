@@ -5,6 +5,7 @@ namespace Northeastern\PIMFIMAdapter\PIM\Model;
 use Northeastern\PIMFIMAdapter\Model\Entry;
 use Contentful\Delivery\Resource\Entry as ResourceEntry;
 use Northeastern\PIMFIMAdapter\Concerns\RendersRichText;
+use function Northeastern\PIMFIMAdapter\PIM\Helpers\{transformDeadlinesToTable};
 
 class Program extends Entry {
     use RendersRichText;
@@ -32,6 +33,7 @@ class Program extends Entry {
     protected $entryTerms;
 
     protected $deadline;
+    protected $deadlineTable;
     protected $deadlineOverview;
 
     protected ?string $applyNowLink;
@@ -79,6 +81,7 @@ class Program extends Entry {
         $this->entryTerms = $item->entryTerms;
         
         $this->deadline = $item->deadline;
+        $this->deadlineTable = transformDeadlinesToTable($item->deadline);
         $this->deadlineOverview = $this->renderRichTextNodes($item->deadlineOverview);
         
         $this->applyNowLink = $item->applyNowLink;
@@ -120,6 +123,7 @@ class Program extends Entry {
             'stackableCertificate' => $this->stackableCertificate,
             'entryTerms' => $this->entryTerms,
             'deadline' => $this->deadline,
+            'deadlineTable' => $this->deadlineTable,
             'deadlineOverview' => $this->deadlineOverview,
             'applyNowLink' => $this->applyNowLink,
             'curriculumLink' => $this->curriculumLink,

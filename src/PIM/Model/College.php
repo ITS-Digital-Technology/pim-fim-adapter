@@ -6,6 +6,8 @@ use Northeastern\PIMFIMAdapter\Concerns\RendersRichText;
 use Contentful\Delivery\Resource\Entry as ResourceEntry;
 use Northeastern\PIMFIMAdapter\Model\Entry;
 
+use function Northeastern\PIMFIMAdapter\PIM\Helpers\transformDeadlinesToTable;
+
 class College extends Entry {
     use RendersRichText;
 
@@ -17,6 +19,7 @@ class College extends Entry {
     protected $applyNowLink;
     protected $tuitionCostPerCredit;
     protected $deadline;
+    protected $deadlineTable;
     protected $deadlineOverview;
 
     public function __construct(ResourceEntry $item)
@@ -30,6 +33,7 @@ class College extends Entry {
         $this->applyNowLink = $item->applyNowLink;
         $this->tuitionCostPerCredit = $item->tuitionCostPerCredit;
         $this->deadline = $item->deadline;
+        $this->deadlineTable = transformDeadlinesToTable($item->deadline);
         $this->deadlineOverview = $this->renderRichTextNodes($item->deadlineOverview);
     }
 
@@ -45,6 +49,7 @@ class College extends Entry {
             'applyNowLink' => $this->applyNowLink,
             'tuitionCostPerCredit' => $this->tuitionCostPerCredit,
             'deadline' => $this->deadline,
+            'deadlineTable' => $this->deadlineTable,
             'deadlineOverview' => $this->deadlineOverview,
         ];
     }
