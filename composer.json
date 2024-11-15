@@ -9,7 +9,8 @@
     "autoload": {
         "files": [
             "src/Helpers/getAllContentfulEntries.php",
-            "src/Helpers/mapEntriesToModel.php"
+            "src/Helpers/mapEntriesToModel.php",
+            "src/PIM/Helpers/transformDeadlinesToTable.php"
         ],
         "psr-4": {
             "Northeastern\\PIMFIMAdapter\\": "src"
