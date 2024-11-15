@@ -67,6 +67,6 @@ function transformDeadlinesToTable($deadline_json) {
 
     }
     $html = $dom->saveHTML();
-    var_dump($html);
+
     return $html;
 }
