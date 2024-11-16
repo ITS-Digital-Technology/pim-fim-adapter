@@ -7,8 +7,8 @@ use DOMDocument;
 function transformDeadlinesToTable($deadline_json) {
     $dom = new DOMDocument('5.0', 'utf-8');
 
-    if (is_null($deadline_json) && !is_object($deadline_json) && !is_array($deadline_json)) {
-        var_dump($deadline_json);
+    
+    if (is_null($deadline_json) || empty($deadline_json) || !is_array($deadline_json)) {
         return;
     }
 
@@ -25,13 +25,18 @@ function transformDeadlinesToTable($deadline_json) {
         $table = $dom->createElement('table');
         $table = $root->appendChild($table);
 
-        // Table Head
-        $thead = $dom->createElement('thead');
-        $thead = $table->appendChild($thead);
-
-        // Table Head Row
-        $thead_tr = $dom->createElement('tr');
-        $thead_tr = $thead->appendChild($thead_tr);
+        if (
+            !empty($deadline['headers'][0])
+            || !empty($deadline['headers'][1])
+        ) {
+            // Table Head
+            $thead = $dom->createElement('thead');
+            $thead = $table->appendChild($thead);
+    
+            // Table Head Row
+            $thead_tr = $dom->createElement('tr');
+            $thead_tr = $thead->appendChild($thead_tr);
+        }
 
         // Table Body
         $tbody = $dom->createElement('tbody');
@@ -39,11 +44,13 @@ function transformDeadlinesToTable($deadline_json) {
         
         // Table Headers
         foreach ($deadline['headers'] as $thead_th) {
-            $td = $dom->createElement('td');
-            $td = $thead_tr->appendChild($td);
-            
-            $th = $dom->createTextNode($thead_th);
-            $th = $td->appendChild($th);
+            if (!empty($thead_th)) {
+                $td = $dom->createElement('td');
+                $td = $thead_tr->appendChild($td);
+                
+                $th = $dom->createTextNode($thead_th);
+                $th = $td->appendChild($th);
+            }
         }
 
         // Table Items/Values
