@@ -21,6 +21,7 @@ class College extends Entry {
     protected $deadline;
     protected $deadlineTable;
     protected $deadlineOverview;
+    protected $tuitionDisclaimer;
 
     public function __construct(ResourceEntry $item)
     {
@@ -35,6 +36,7 @@ class College extends Entry {
         $this->deadline = $item->deadline;
         $this->deadlineTable = transformDeadlinesToTable($item->deadline);
         $this->deadlineOverview = $this->renderRichTextNodes($item->deadlineOverview);
+        $this->tuitionDisclaimer = $this->renderRichTextNodes($item->tuitionDisclaimer);
     }
 
     public function toArray()
@@ -51,6 +53,7 @@ class College extends Entry {
             'deadline' => $this->deadline,
             'deadlineTable' => $this->deadlineTable,
             'deadlineOverview' => $this->deadlineOverview,
+            'tuitionDisclaimer' => $this->tuitionDisclaimer,
         ];
     }
 }
