@@ -17,6 +17,7 @@ class PIMAdapter extends Adapter {
 
     private $program_content_type = 'program';
     private $college_content_type = 'college';
+    private $university_content_type = 'university';
     private $banner_content_type = 'banner';
 
     public function __construct(
@@ -246,6 +247,22 @@ class PIMAdapter extends Adapter {
         $entries = getAllContentfulEntries($this->adapter, $this->college_content_type, $query);
 
         return $entries;
+    }
+
+    /**
+     * Get University Fields
+     * 
+     * Fetch University fields, no query parameters.
+     * 
+     * @return ResourceArray $university_fields_array
+     */
+    public function getUniversity(){
+        
+        $university_fields = $this->adapter->getEntriesByContentType( $this->university_content_type);
+
+        $university_fields_array = mapEntriesToModel($this->university_content_type, $university_fields);
+
+        return $university_fields_array;
     }
 
     /**
