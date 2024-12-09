@@ -54,6 +54,7 @@ Below are a list of methods available in the `PIMAdapter` class
 | Name | Parameters | Description |
 | ---- | ---- | ---- |
 | `getAllPrograms` | N/A | List all Programs, no query parameters. |
+| `getUniversity` | N/A | Fetch University fields, no query parameters. |
 | `getCollegeList` | [Query](https://contentful.github.io/contentful.php/api/6.4.0/Contentful/Query.html) `$query` - optional | Lists all or some Colleges by Query. Use Query object to filter by specific id(s) |
 | `getLinkedBannerEntriesByEntryId` | string `$entry_id` | Fetches entries (Programs) linked to Banner entries by matching Banner entry Id (`$entry_id`/`sys.id`) |
 | `getProgramsByCollege` | string `$college_name`, [Query](https://contentful.github.io/contentful.php/api/6.4.0/Contentful/Query.html) `$query` - optional | This method walks backwards from the College Entry to the Banner Entry and finally to the linked Entries attached to the Banner Entry such as a Program Entry. Using the College Entry Id that's found when doing a lookup of Colleges by `$college_name`, we filter the API by `$college[0]['id']` with the ID of the fields.`college.sys.id` value in the Banner Entry. Finally, we get linked Entries belonging to the Banner entry. **This method will only return Program entries as Banner entries are only attached to Program Entries.** |
