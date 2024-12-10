@@ -29,6 +29,7 @@ class Program extends Entry {
     protected ?bool $align;
     protected ?bool $plusOne;
     protected ?bool $stackableCertificate;
+    protected ?bool $PGWPEligible;
 
     protected $entryTerms;
 
@@ -77,6 +78,7 @@ class Program extends Entry {
         $this->align = $item->align;
         $this->plusOne = $item->plusOne;
         $this->stackableCertificate = $item->stackableCertificate;
+        $this->PGWPEligible = $item->PGWPEligible;
         
         $this->entryTerms = $item->entryTerms;
         
@@ -121,6 +123,7 @@ class Program extends Entry {
             'align' => $this->align,
             'plusOne' => $this->plusOne,
             'stackableCertificate' => $this->stackableCertificate,
+            'PGWPEligible' => $this->PGWPEligible,
             'entryTerms' => $this->entryTerms,
             'deadline' => $this->deadline,
             'deadlineTable' => $this->deadlineTable,
