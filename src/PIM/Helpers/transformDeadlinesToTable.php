@@ -5,7 +5,7 @@ namespace Northeastern\PIMFIMAdapter\PIM\Helpers;
 use DOMDocument;
 
 function transformDeadlinesToTable($deadline_json) {
-    $dom = new DOMDocument('5.0', 'utf-8');
+    $dom = new DOMDocument('1.0', 'utf-8');
 
     
     if (is_null($deadline_json) || empty($deadline_json) || !is_array($deadline_json)) {
@@ -44,13 +44,12 @@ function transformDeadlinesToTable($deadline_json) {
         
         // Table Headers
         foreach ($deadline['headers'] as $thead_th) {
-            if (!empty($thead_th)) {
                 $td = $dom->createElement('td');
+                $td->setAttribute('colspan', 1);
                 $td = $thead_tr->appendChild($td);
                 
                 $th = $dom->createTextNode($thead_th);
                 $th = $td->appendChild($th);
-            }
         }
 
         // Table Items/Values
