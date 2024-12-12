@@ -46,8 +46,9 @@ function transformDeadlinesToTable($deadline_json) {
         foreach ($deadline['headers'] as $thead_th) {
                 $td = $dom->createElement('td');
                 $td->setAttribute('colspan', 1);
-                $td = $thead_tr->appendChild($td);
-                
+                if (!empty($thead_tr)) {
+                    $td = $thead_tr->appendChild($td);
+                }
                 $th = $dom->createTextNode($thead_th);
                 $th = $td->appendChild($th);
         }
