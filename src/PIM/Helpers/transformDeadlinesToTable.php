@@ -16,6 +16,7 @@ function transformDeadlinesToTable($deadline_json) {
         // Root element
         $root = $dom->createElement('div');
         $root = $dom->appendChild($root);
+        $root->setAttribute('class', 'table-wrapper');
 
         // Heading
         $heading = $dom->createElement('h4', $deadline['key']);
