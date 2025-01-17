@@ -13,15 +13,13 @@ use function Northeastern\PIMFIMAdapter\Helpers\{mapEntriesToModel};
  * 
  * @param ContentfulAdapter $adapter
  * @param string $content_type
- * @param bool $preview_mode
  * @param ?Query|null $query
  *
- * @return mixed $contentful_entries
+ * @return $contentful_entries
  */
 function getAllContentfulEntries(
     ContentfulAdapter $adapter, 
     string $content_type, 
-    bool $preview_mode = false,
     Query $query = null
 ) {
     $contentful_entries = null;
