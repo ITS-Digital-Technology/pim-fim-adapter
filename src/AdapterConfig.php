@@ -25,7 +25,7 @@ abstract class AdapterConfig {
 
     public function getSpaceId() {}
 
-    public function getPreviewAccessToken() {}
+    public function getAccessToken() {}
 
     public function getEnvironmentId() {}
 
