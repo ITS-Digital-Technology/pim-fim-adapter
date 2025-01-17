@@ -21,20 +21,23 @@ class PIMAdapter extends Adapter {
     private $banner_content_type = 'banner';
 
     public function __construct(
-        ?ClientOptions $client_options = null
+        ?ClientOptions $client_options = null,
+        bool $preview_mode = false
     ) {
         $this->config = new PIMConfig();
 
-        return $this->adapter = parent::__construct($this->config, $client_options);
+        return $this->adapter = parent::__construct($this->config, $client_options,$preview_mode);
     }
 
     /**
      * Get All Programs
      * 
-     * List all Programs, no query parameters.
+     * List all Programs
+     * 
+     * @param bool $preview_mode Optional, default value `false`
      */
-    public function getAllPrograms() {
-        $entries = getAllContentfulEntries($this->adapter, $this->program_content_type);
+    public function getAllPrograms(bool $preview_mode = false) {
+        $entries = getAllContentfulEntries($this->adapter, $this->program_content_type, $preview_mode);
 
         return $entries;
     }

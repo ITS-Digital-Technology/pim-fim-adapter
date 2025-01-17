@@ -12,7 +12,8 @@ abstract class Adapter {
 
     public function __construct(
         AdapterConfig $config,
-        ClientOptions $client_options = null
+        ClientOptions $client_options = null,
+        bool $preview_mode = false
     ) {
         $this->config = $config;
 
@@ -20,8 +21,10 @@ abstract class Adapter {
 
         $this->adapter = new ContentfulAdapter(
             $access_token, 
+            $preview_access_token,
             $space_id, 
             $environment_id, 
+            $preview_mode,
             $client_options
         );
 
