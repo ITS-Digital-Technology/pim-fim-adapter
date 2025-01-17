@@ -24,7 +24,6 @@ class ContentfulAdapter {
 
     /**
      * @param string $access_token
-     * @param string $preview_access_token
      * @param string $space_id
      * @param string $environment_id
      * @param bool $preview_mode Optional, default value `false`
@@ -32,22 +31,21 @@ class ContentfulAdapter {
      */
     public function __construct(
         string $access_token,
-        string $preview_access_token,
         string $space_id,
         string $environment_id,
-        bool $preview_mode = false,
+        bool $preview_mode,
         ?ClientOptions $client_options = null
     ) {
 
         // Contentful Client Options
-        $this->client_options = is_null($client_options) 
-            ? ClientOptions::create()->usingDeliveryApi() // Default to Delivery API
+        if($preview_mode) {
+            $this->client_options = is_null($client_options) 
+            ? ClientOptions::create()->usingPreviewApi() // Use Preview API
             : $client_options;
-        
-        // Change the API type if preview_mode is true
-        if ($preview_mode) {
-            $this->client_options->usingPreviewApi();
-            $access_token = $preview_access_token;
+        } else {
+            $this->client_options = is_null($client_options) 
+            ? ClientOptions::create()->usingDeliveryApi() // Use Delivery API
+            : $client_options;
         }
 
         // Contentful Client

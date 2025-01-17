@@ -21,7 +21,6 @@ abstract class Adapter {
 
         $this->adapter = new ContentfulAdapter(
             $access_token, 
-            $preview_access_token,
             $space_id, 
             $environment_id, 
             $preview_mode,

@@ -28,7 +28,7 @@ $PIMAdapter = new PIMAdapter();
 // $colleges = $PIMAdapter->getCollegeList($collegeQuery);
 
 // 1. getAllPrograms
-$allPrograms = $PIMAdapter->getAllPrograms(true);
+$allPrograms = $PIMAdapter->getAllPrograms();
 //$json_pretty = json_encode($allPrograms, JSON_PRETTY_PRINT);
 echo stripslashes($allPrograms);
 
