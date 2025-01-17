@@ -32,12 +32,10 @@ class PIMAdapter extends Adapter {
     /**
      * Get All Programs
      * 
-     * List all Programs
-     * 
-     * @param bool $preview_mode Optional, default value `false`
+     * List all Programs, no query parameters.
      */
-    public function getAllPrograms(bool $preview_mode = false) {
-        $entries = getAllContentfulEntries($this->adapter, $this->program_content_type, $preview_mode);
+    public function getAllPrograms() {
+        $entries = getAllContentfulEntries($this->adapter, $this->program_content_type);
 
         return $entries;
     }
