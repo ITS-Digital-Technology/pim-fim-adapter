@@ -21,11 +21,12 @@ class PIMAdapter extends Adapter {
     private $banner_content_type = 'banner';
 
     public function __construct(
-        ?ClientOptions $client_options = null
+        ?ClientOptions $client_options = null,
+        bool $preview_mode = false
     ) {
         $this->config = new PIMConfig();
 
-        return $this->adapter = parent::__construct($this->config, $client_options);
+        return $this->adapter = parent::__construct($this->config, $client_options,$preview_mode);
     }
 
     /**

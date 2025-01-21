@@ -26,19 +26,27 @@ class ContentfulAdapter {
      * @param string $access_token
      * @param string $space_id
      * @param string $environment_id
+     * @param bool $preview_mode Optional, default value `false`
      * @param ClientOptions $client_options Optional, default value `null`
      */
     public function __construct(
         string $access_token,
         string $space_id,
         string $environment_id,
+        bool $preview_mode,
         ?ClientOptions $client_options = null
     ) {
 
         // Contentful Client Options
-        $this->client_options = is_null($client_options) 
-            ? ClientOptions::create()->usingDeliveryApi() // Default Client Options 
-            : $client_options; // Custom Client Options
+        if($preview_mode) {
+            $this->client_options = is_null($client_options) 
+            ? ClientOptions::create()->usingPreviewApi() // Use Preview API
+            : $client_options;
+        } else {
+            $this->client_options = is_null($client_options) 
+            ? ClientOptions::create()->usingDeliveryApi() // Use Delivery API
+            : $client_options;
+        }
 
         // Contentful Client
         $this->client = new Client(
