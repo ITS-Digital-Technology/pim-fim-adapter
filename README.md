@@ -23,8 +23,10 @@ This package supports the use of the PHP Dotenv package for setting and reading 
 | Environment Variable | Description |
 |---|---|
 | `PIM_ACCESS_TOKEN` | Provides the Access Token for reading data from the Contentful PIM Space |
+| `PIM_PREVIEW_ACCESS_TOKEN` | Provides the Access Token for reading data from the Contentful Preview API PIM Space (includes draft programs) |
 | `PIM_SPACE_ID` | Provides the Space ID for the Contentful PIM Space |
 | `PIM_ENVIRONMENT_ID` | Provides the Environment ID for the Contentful PIM Space (e.g., 'master', 'staging', 'development') |
+| `PIM_PREVIEW_MODE` | Set this to `true` to read data from the Contentful Preview API PIM Space (must also set `PIM_PREVIEW_ACCESS_TOKEN`) |
 
 ### FIM
 | Environment Variable | Description |
