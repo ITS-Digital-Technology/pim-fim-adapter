@@ -50,8 +50,10 @@ function transformDeadlinesToTable($deadline_json) {
                 if (!empty($thead_tr)) {
                     $td = $thead_tr->appendChild($td);
                 }
-                $th = $dom->createTextNode($thead_th);
-                $th = $td->appendChild($th);
+                if(!empty($thead_th)){
+                    $th = $dom->createTextNode($thead_th);
+                    $th = $td->appendChild($th);
+                }
         }
 
         // Table Items/Values
