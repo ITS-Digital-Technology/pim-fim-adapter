@@ -13,6 +13,7 @@ class Banner extends Entry {
     protected $undergradDegreeType;
     protected $college;
     protected $additionalColleges;
+    protected $concentrations;
 
     public function __construct(ResourceEntry $item)
     {
@@ -26,6 +27,9 @@ class Banner extends Entry {
         $this->college = !is_null($item->college) ? (new College($item->college))->toArray() : null;
         $this->additionalColleges = !is_null($item->additionalColleges) ? collect($item->additionalColleges)->map(function ($college) {
             return (new College($college))->toArray();
+        }) : null;
+        $this->concentrations = !is_null($item->concentrations) ? collect($item->concentrations)->map(function ($concentration) {
+            return (new Concentration($concentration))->toArray();
         }) : null;
     }
 
@@ -41,6 +45,7 @@ class Banner extends Entry {
             'undergradDegreeType' => $this->undergradDegreeType,
             'college' => $this->college,
             'additionalColleges' => $this->additionalColleges,
+            'concentrations' => $this->concentrations,
         ];
     }
 }
