@@ -16,7 +16,6 @@ function transformDeadlinesToTable($deadline_json) {
         // Root element
         $root = $dom->createElement('div');
         $root = $dom->appendChild($root);
-        $root->setAttribute('class', 'table-wrapper');
 
         // Heading
         $heading = $dom->createElement('h4', $deadline['key']);
@@ -50,10 +49,13 @@ function transformDeadlinesToTable($deadline_json) {
                 if (!empty($thead_tr)) {
                     $td = $thead_tr->appendChild($td);
                 }
-                if(!empty($thead_th)){
-                    $th = $dom->createTextNode($thead_th);
-                    $th = $td->appendChild($th);
+
+                if (is_null($thead_th)) {
+                    $thead_th = '';
                 }
+
+                $th = $dom->createTextNode($thead_th);
+                $th = $td->appendChild($th);
         }
 
         // Table Items/Values
