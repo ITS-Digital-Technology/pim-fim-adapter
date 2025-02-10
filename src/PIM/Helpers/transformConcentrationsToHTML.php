@@ -11,20 +11,30 @@ function transformConcentrationsToHTML($concentrations) {
         return;
     }
     
+    // Root element
+    $root = $dom->createElement('div');
+    $root = $dom->appendChild($root);
+    $root->setAttribute('class', 'concentrations-wrapper');
+
+    // Unordered List
+    $ul = $dom->createElement('ul');
+    $ul = $root->appendChild($ul);
+
     // Table Items/Values
     foreach ($concentrations as $concentration) {
-        // Root element
-        $root = $dom->createElement('div');
-        $root = $dom->appendChild($root);
-        $root->setAttribute('class', 'concentrations-wrapper');
+        // List Item
+        $li = $dom->createElement('li');
+        $li = $ul->appendChild($li);
 
-        // Heading
-        $heading = $dom->createElement('h4', $concentration['name']);
-        $heading = $root->appendChild($heading);
+        // Strong element for name
+        $name = $dom->createElement('strong', $concentration['name']);
+        $li->appendChild($name);
 
-        $description = $dom->createElement('p', $concentration['description']);
-        $description = $root->appendChild($description);
-
+        // Paragraph element for Description
+        if ($concentration['description']) {
+            $description = $dom->createElement('p', $concentration['description']);
+            $li->appendChild($description);
+        }
     }
 
     $html = $dom->saveHTML();
