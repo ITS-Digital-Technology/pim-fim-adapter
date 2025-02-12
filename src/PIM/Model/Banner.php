@@ -5,6 +5,8 @@ namespace Northeastern\PIMFIMAdapter\PIM\Model;
 use Contentful\Delivery\Resource\Entry as ResourceEntry;
 use Northeastern\PIMFIMAdapter\Model\Entry;
 
+use function Northeastern\PIMFIMAdapter\PIM\Helpers\transformConcentrationsToHTML;
+
 class Banner extends Entry {
     protected $bannerId;
     protected $friendlyName;
@@ -14,6 +16,7 @@ class Banner extends Entry {
     protected $college;
     protected $additionalColleges;
     protected $concentrations;
+    protected $concentrationsHTML;
 
     public function __construct(ResourceEntry $item)
     {
@@ -31,6 +34,7 @@ class Banner extends Entry {
         $this->concentrations = !is_null($item->concentrations) ? collect($item->concentrations)->map(function ($concentration) {
             return (new Concentration($concentration))->toArray();
         }) : null;
+        $this->concentrationsHTML = transformConcentrationsToHTML($item->concentrations);
     }
 
     public function toArray()
@@ -46,6 +50,7 @@ class Banner extends Entry {
             'college' => $this->college,
             'additionalColleges' => $this->additionalColleges,
             'concentrations' => $this->concentrations,
+            'concentrationsHTML' => $this->concentrationsHTML
         ];
     }
 }

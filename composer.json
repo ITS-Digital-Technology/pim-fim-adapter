@@ -10,7 +10,8 @@
         "files": [
             "src/Helpers/getAllContentfulEntries.php",
             "src/Helpers/mapEntriesToModel.php",
-            "src/PIM/Helpers/transformDeadlinesToTable.php"
+            "src/PIM/Helpers/transformDeadlinesToTable.php",
+            "src/PIM/Helpers/transformConcentrationsToHTML.php"
         ],
         "psr-4": {
             "Northeastern\\PIMFIMAdapter\\": "src"
