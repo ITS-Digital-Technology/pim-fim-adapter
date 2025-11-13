@@ -6,6 +6,7 @@ use Northeastern\PIMFIMAdapter\Model\Entry;
 use Contentful\Delivery\Resource\Entry as ResourceEntry;
 use Northeastern\PIMFIMAdapter\Concerns\RendersRichText;
 use function Northeastern\PIMFIMAdapter\PIM\Helpers\{transformDeadlinesToTable};
+use function Northeastern\PIMFIMAdapter\PIM\Helpers\{transformConcentrationsToHTML};
 
 class Program extends Entry {
     use RendersRichText;
@@ -15,6 +16,7 @@ class Program extends Entry {
     
     protected $banner;
     protected $concentrations;
+    protected $concentrationsHTML;
     protected $location;
 
     protected $format;
@@ -66,6 +68,7 @@ class Program extends Entry {
         $this->concentrations = !is_null($item->concentrations) ? collect($item->concentrations)->map(function ($concentration) {
             return (new Concentration($concentration))->toArray();
         }) : null;
+        $this->concentrationsHTML = transformConcentrationsToHTML($item->concentrations);
         $this->location = !is_null($item->location) ? (new Location($item->location))->toArray() : null;
 
         $this->format = $item->format;
@@ -117,6 +120,7 @@ class Program extends Entry {
             'banner' => $this->banner,
             'location' => $this->location,
             'concentrations' => $this->concentrations,
+            'concentrationsHTML' => $this->concentrationsHTML,
             'format' => $this->format,
             'commitment' => $this->commitment,
             'durationUnit' => $this->durationUnit,
