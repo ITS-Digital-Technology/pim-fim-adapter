@@ -7,7 +7,7 @@ use Contentful\Delivery\Query;
 use Northeastern\PIMFIMAdapter\PIM\PIMAdapter;
 use Northeastern\PIMFIMAdapter\PIM\Model\Program;
 
-require_once realpath('../../vendor/autoload.php');
+require_once realpath('./vendor/autoload.php');
 $dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
 $dotenv->load();
 
@@ -28,16 +28,16 @@ $PIMAdapter = new PIMAdapter();
 // $colleges = $PIMAdapter->getCollegeList($collegeQuery);
 
 // 1. getAllPrograms
-$allPrograms = $PIMAdapter->getAllPrograms();
-//$json_pretty = json_encode($allPrograms, JSON_PRETTY_PRINT);
-echo stripslashes($allPrograms);
+// $allPrograms = $PIMAdapter->getAllPrograms();
+// $json_pretty = json_encode($allPrograms, JSON_PRETTY_PRINT);
+// echo $json_pretty;
 
 
 // 2. getProgramById
-//$programId = "5oZiCP3mTuyPSr4XH5W83B";
-//$programById = $PIMAdapter->getProgramById($programId); 
-//$json_pretty = json_encode($programById, JSON_PRETTY_PRINT); 
-//echo "<pre>" . $json_pretty . "<pre/>"; 
+$programId = "6URyLkbgWxFhxnpMmT0WNg";
+$programById = $PIMAdapter->getProgramById($programId); 
+$json_pretty = json_encode($programById, JSON_PRETTY_PRINT); 
+echo $json_pretty; 
 
 // // 3. getProgramByName
  //$programName = "Master of Science in Robotics";
@@ -46,8 +46,10 @@ echo stripslashes($allPrograms);
 //echo "<pre>" . $json_pretty . "<pre/>"; 
 
 // // 4. getProgramsByCollege
-// $collegeName = "Bouvé College of Health Sciences";
+// $collegeName = "College of Professional Studies";
 // $programsByCollege = $PIMAdapter->getProgramsByCollege($collegeName, (new Query)->orderBy('fields.name'));
+// $json_pretty = json_encode($programsByCollege, JSON_PRETTY_PRINT); 
+// echo $json_pretty; 
 
 // // 5. getProgramsByLocation
 // $locationName = "Boston";
