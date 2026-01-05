@@ -136,13 +136,9 @@ class PIMAdapter extends Adapter {
             })->collapse();
         })->collapse();
 
-        // Get Program entries by Array of Ids.
-        $program_entries = $this->adapter->getEntriesByContentType(
-            $this->program_content_type,
-            $query->where('sys.id[in]', $program_ids->all())
-        );
+        // Get Program entries by Array of Ids (paged).
 
-        $programs = mapEntriesToModel($this->program_content_type, $program_entries);
+        $programs = getAllContentfulEntries($this->adapter, $this->program_content_type, $query->where('sys.id[in]', $program_ids->all()));
         
         return $programs;
     }
