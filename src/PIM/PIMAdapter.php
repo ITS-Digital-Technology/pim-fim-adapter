@@ -136,18 +136,9 @@ class PIMAdapter extends Adapter {
             })->collapse();
         })->collapse();
 
-        // Get Program entries by Array of Ids.
-        // Set higher than default query limit (100) if caller didn't set one, so results aren't truncted.
-        $params = method_exists($query, 'jsonSerialize') ? $query->jsonSerialize() : [];
-        if ( !array_key_exists('limit', $params) ) {
-            $query->setLimit(500);
-        }
-        $program_entries = $this->adapter->getEntriesByContentType(
-            $this->program_content_type,
-            $query->where('sys.id[in]', $program_ids->all())
-        );
+        // Get Program entries by Array of Ids (paged).
 
-        $programs = mapEntriesToModel($this->program_content_type, $program_entries);
+        $programs = getAllContentfulEntries($this->adapter, $this->program_content_type, $query->where('sys.id[in]', $program_ids->all()));
         
         return $programs;
     }
