@@ -27,12 +27,14 @@ function transformConcentrationsToHTML($concentrations) {
         $li = $ul->appendChild($li);
 
         // Strong element for name
-        $name = $dom->createElement('strong', $concentration['name']);
+        $nameText = $concentration['name'] ?? '';
+        $name = $dom->createElement('strong', htmlspecialchars($nameText, ENT_XML1 | ENT_COMPAT, 'UTF-8'));
         $li->appendChild($name);
 
         // Paragraph element for Description
-        if ($concentration['description']) {
-            $description = $dom->createElement('p', $concentration['description']);
+        $descText = $concentration['description'] ?? '';
+        if (!empty($descText)) {
+            $description = $dom->createElement('p', htmlspecialchars($descText, ENT_XML1 | ENT_COMPAT, 'UTF-8'));
             $li->appendChild($description);
         }
     }
